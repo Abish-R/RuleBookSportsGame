@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">RuleBookSportsGame</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="sports">
+        <item>Cricket</item>
+        <item>FootBall</item>
+        <item>Badminton</item>
+        <item>Kabadi</item>
+        <item>Hockey</item>
+        <item>VolleyBall</item>
+    </string-array>
+    <string-array name="Cricket">
+        <item>History</item>
+        <item>Common Rules</item>
+        <item>Player Records</item>
+    </string-array>
+</resources>
