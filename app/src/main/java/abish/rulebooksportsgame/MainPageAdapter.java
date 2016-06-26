@@ -38,7 +38,7 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MyView
             switch (position){
                 case 0:
                     Toast.makeText(context, v.getTag() + "", Toast.LENGTH_SHORT).show();
-                    //startActivity( new Intent(context, CricketActivity.class));
+                    context.startActivity( new Intent(context, CricketActivity.class));
                     break;
                 case 1:
                     Toast.makeText(context, v.getTag() + "", Toast.LENGTH_SHORT).show();

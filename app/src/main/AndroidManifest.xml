@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainSportsPage"/>
-        <activity android:name=".CricketActivity"/>
+        <activity android:name=".CricketActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
