@@ -4,9 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TabHost;
+import android.widget.Toast;
 
 import abish.rulebooksportsgame.R;
 
@@ -27,6 +30,10 @@ public class CricketRecords extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    FragmentTabHost mTabHost;
+    View view;
+    Context context;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,14 +66,33 @@ public class CricketRecords extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        context = getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.cricket_tabrecords, container, false);
+        view = inflater.inflate(R.layout.cricket_tabrecords, container, false);
+        mTabHost = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
+        mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
+
+        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Test", null), CricketRecordsTest.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("ODI", null),CricketHistory.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("T20", null), CricketRecordsTest.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("tab4").setIndicator("Players", null), CricketRecordsTest.class, null);
+//        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+//            @Override
+//            public void onTabChanged(String tabId) {
+//                if(tabId.equals("tab1"))
+//                    Toast.makeText(context,"Tab 1",Toast.LENGTH_LONG).show();
+//                else if(tabId.equals("tab2"))
+//                    Toast.makeText(context,"Tab 2",Toast.LENGTH_LONG).show();
+//            }
+//        });
+        return view;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
