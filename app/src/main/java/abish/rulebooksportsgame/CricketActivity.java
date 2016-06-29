@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-import util.Pager;
+import abish.rulebooksportsgame.adapter.Pager;
 
 /**
  * Created by INDP on 21-Jun-16.

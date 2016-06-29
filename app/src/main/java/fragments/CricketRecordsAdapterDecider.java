@@ -18,12 +18,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,7 +45,7 @@ import abish.rulebooksportsgame.adapter.CricketTestAdapter;
  * Use the {@link CricketHistory#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CricketRecordsTest extends Fragment {
+public class CricketRecordsAdapterDecider extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -51,6 +53,7 @@ public class CricketRecordsTest extends Fragment {
 
     View view;
     RecyclerView test_record_recycler;
+    String calledfrom;
 //    TextView title1,title2,title3,title4,title5;
 //    TextView text1, text2, text3, text4, text5, text6,text7, text8, text9, text10, text11, text12, text13, text14, text15, text16,text17, text18,
 //            text19, text20, text21, text22, text23, text24,text25, text26, text27, text28, text29, text30, text31, text32, text33,
@@ -68,7 +71,7 @@ public class CricketRecordsTest extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public CricketRecordsTest() {
+    public CricketRecordsAdapterDecider() {
         // Required empty public constructor
     }
 
@@ -81,8 +84,8 @@ public class CricketRecordsTest extends Fragment {
      * @return A new instance of fragment CricketHistory.
      */
     // TODO: Rename and change types and number of parameters
-    public static CricketRecordsTest newInstance(String param1, String param2) {
-        CricketRecordsTest fragment = new CricketRecordsTest();
+    public static CricketRecordsAdapterDecider newInstance(String param1, String param2) {
+        CricketRecordsAdapterDecider fragment = new CricketRecordsAdapterDecider();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -96,6 +99,11 @@ public class CricketRecordsTest extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+        Bundle arguments = getArguments();
+        if (arguments!=null) {
+            calledfrom = arguments.getString("invoked");
+            Toast.makeText(getActivity(), calledfrom, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -154,7 +162,7 @@ public class CricketRecordsTest extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void GetResponseString(String text){
+    public void GetResponseString(final String text){
         // Tag used to cancel the request
         final String tag_json_obj = "string_req";
 
@@ -173,12 +181,29 @@ public class CricketRecordsTest extends Fragment {
                         List<String> list = new ArrayList<String>();
                         try {
                             JSONObject json = new JSONObject(response);
+                            JSONArray array = json.getJSONArray("Test-Ranking-Team");
+                            for (int i=0; i<array.length();i++){
+                                String team = array.getJSONObject(i).getString("team");
+                                String rank = array.getJSONObject(i).getString("rank");
+                                String matches = array.getJSONObject(i).getString("matches");
+                                String points = array.getJSONObject(i).getString("points");
+                                String last_updated_date = array.getJSONObject(i).getString("last_updated_date");
+                                Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+                            }
                         }catch (JSONException e){
                             Log.e("CricketRecordTest",e.toString());
                         }
 
-                        CricketTestAdapter adapter = new CricketTestAdapter(getActivity(), list);
-                        test_record_recycler.setAdapter(adapter);
+                        if(text.equals("Test")) {
+//                            CricketTestAdapter adapter = new CricketTestAdapter(getActivity(), list);
+//                            test_record_recycler.setAdapter(adapter);
+                        }else if(text.equals("ODI")){
+
+                        }else if(text.equals("T20")){
+
+                        }else if(text.equals("Players")){
+
+                        }
                     }
                 },
                 new Response.ErrorListener() {

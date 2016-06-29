@@ -8,8 +8,6 @@ import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TabHost;
-import android.widget.Toast;
 
 import abish.rulebooksportsgame.R;
 
@@ -86,7 +84,7 @@ public class CricketRecords extends Fragment {
         Bundle b3 = new Bundle();
         b3.putString("invoked","Players");
 
-        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Test", null), CricketHistory.class, b);
+        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Test", null), CricketRecordsAdapterDecider.class, b);
         mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("ODI", null),CricketHistory.class, b1);
         mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("T20", null), CricketHistory.class, b2);
         mTabHost.addTab(mTabHost.newTabSpec("tab4").setIndicator("Players", null), CricketHistory.class, b3);
