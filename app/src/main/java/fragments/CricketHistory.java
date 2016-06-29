@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import Constants.ConstantCricket;
 import abish.rulebooksportsgame.R;
@@ -64,6 +65,13 @@ public class CricketHistory extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+
+
+        Bundle arguments = getArguments();
+        if (arguments!=null) {
+            String i = arguments.getString("invoked");
+            Toast.makeText(getActivity(), i, Toast.LENGTH_LONG).show();
         }
     }
 

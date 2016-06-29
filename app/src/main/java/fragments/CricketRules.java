@@ -38,7 +38,7 @@ public class CricketRules extends Fragment {
             subtitletext38,subtitletext39,subtitletext40,subtitletext41,subtitletext19;
     TextView text2,text3,text4,text5,text6,text7,text8,text9,text10,text11,text12,text13,text14,text15,text16,text17,text18,text19,text20,
             text21,text22,text23,text24,text25,text26,text27,text28,text29,text30,text31,text32,text33,text34,text35,text36,text37,text38,
-            text39,text40,text41,text342;
+            text39,text40,text41,text42;
 
     private OnFragmentInteractionListener mListener;
 
@@ -164,7 +164,7 @@ public class CricketRules extends Fragment {
         text36=(TextView) view.findViewById(R.id.text36);text37=(TextView) view.findViewById(R.id.text37);
         text38=(TextView) view.findViewById(R.id.text38);text39=(TextView) view.findViewById(R.id.text39);
         text40=(TextView) view.findViewById(R.id.text40);text41=(TextView) view.findViewById(R.id.text41);
-        text342=(TextView) view.findViewById(R.id.text42);
+        text42=(TextView) view.findViewById(R.id.text42);
     }
     private void settextInAllViews(){
         subtitletext1.setText(ConstantCricket.rule_subtitle[0]);subtitletext2.setText(ConstantCricket.rule_subtitle[1]);
@@ -208,6 +208,6 @@ public class CricketRules extends Fragment {
         text36.setText(ConstantCricket.rule_text[34]);text37.setText(ConstantCricket.rule_text[35]);
         text38.setText(ConstantCricket.rule_text[36]);text39.setText(ConstantCricket.rule_text[37]);
         text40.setText(ConstantCricket.rule_text[38]);text41.setText(ConstantCricket.rule_text[39]);
-        text342.setText(ConstantCricket.rule_text[40]);
+        text42.setText(ConstantCricket.rule_text[40]);
     }
 }

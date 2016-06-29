@@ -1,6 +1,5 @@
 package abish.rulebooksportsgame;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -9,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-import Supporters.Pager;
+import util.Pager;
 
 /**
  * Created by INDP on 21-Jun-16.
@@ -46,6 +45,7 @@ public class CricketActivity extends AppCompatActivity implements TabLayout.OnTa
         //Adding the tabs using addTab() method
         tabLayout.addTab(tabLayout.newTab().setText("History"));
         tabLayout.addTab(tabLayout.newTab().setText("Rule Page"));
+        tabLayout.addTab(tabLayout.newTab().setText("ICC Rankings"));
         tabLayout.addTab(tabLayout.newTab().setText("World Records"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
