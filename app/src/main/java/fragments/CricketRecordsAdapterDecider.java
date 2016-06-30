@@ -259,7 +259,7 @@ public class CricketRecordsAdapterDecider extends Fragment {
                         // handle error response
                         pDialog.hide();
                         Snackbar snackbar = Snackbar
-                                .make(view, "No internet connection!", Snackbar.LENGTH_LONG)
+                                .make(view, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
