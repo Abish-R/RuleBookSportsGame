@@ -85,9 +85,9 @@ public class CricketRecords extends Fragment {
         b3.putString("invoked","Players");
 
         mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Test", null), CricketRecordsAdapterDecider.class, b);
-        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("ODI", null),CricketHistory.class, b1);
-        mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("T20", null), CricketHistory.class, b2);
-        mTabHost.addTab(mTabHost.newTabSpec("tab4").setIndicator("Players", null), CricketHistory.class, b3);
+        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("ODI", null),CricketRecordsAdapterDecider.class, b1);
+        mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("T20", null), CricketRecordsAdapterDecider.class, b2);
+        mTabHost.addTab(mTabHost.newTabSpec("tab4").setIndicator("Players", null), CricketRecordsAdapterDecider.class, b3);
 //        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
 //            @Override
 //            public void onTabChanged(String tabId) {

@@ -34,6 +34,7 @@ import java.util.List;
 
 import Constants.WebserviceLinks;
 import abish.rulebooksportsgame.AppController;
+import abish.rulebooksportsgame.CricketModel;
 import abish.rulebooksportsgame.R;
 import abish.rulebooksportsgame.adapter.CricketTestAdapter;
 
@@ -178,25 +179,71 @@ public class CricketRecordsAdapterDecider extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         pDialog.hide();
-                        List<String> list = new ArrayList<String>();
+                        List<CricketModel> list = new ArrayList<CricketModel>();
                         try {
                             JSONObject json = new JSONObject(response);
-                            JSONArray array = json.getJSONArray("Test-Ranking-Team");
-                            for (int i=0; i<array.length();i++){
-                                String team = array.getJSONObject(i).getString("team");
-                                String rank = array.getJSONObject(i).getString("rank");
-                                String matches = array.getJSONObject(i).getString("matches");
-                                String points = array.getJSONObject(i).getString("points");
-                                String last_updated_date = array.getJSONObject(i).getString("last_updated_date");
+                            JSONArray arrayTestTeam = json.getJSONArray("Test-Ranking-Team");
+                            for (int i=0; i<arrayTestTeam.length();i++){
+                                int unique = 1;
+                                String team = arrayTestTeam.getJSONObject(i).getString("team");
+                                String rank = arrayTestTeam.getJSONObject(i).getString("rank");
+                                String matches = arrayTestTeam.getJSONObject(i).getString("matches");
+                                String points = arrayTestTeam.getJSONObject(i).getString("points");
+                                String last_updated_date = arrayTestTeam.getJSONObject(i).getString("last_updated_date");
                                 Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+                                CricketModel cm = new CricketModel();
+                                cm.setUnique(unique);
+                                cm.setTeam(team);
+                                cm.setRank(rank);
+                                cm.setMatches(matches);
+                                cm.setPoints(points);
+                                cm.setLastUpdatedDate(last_updated_date);
+                                list.add(cm);
+                            }
+
+                            JSONArray arrayTestBatting = json.getJSONArray("Test-Batting-Ranking-Players");
+                            for (int i=0; i<arrayTestBatting.length();i++){
+                                int unique = 2;
+                                String team = arrayTestBatting.getJSONObject(i).getString("player_name");
+                                String rank = arrayTestBatting.getJSONObject(i).getString("country");
+                                String matches = arrayTestBatting.getJSONObject(i).getString("rank");
+                                String points = arrayTestBatting.getJSONObject(i).getString("rating");
+                                String last_updated_date = arrayTestBatting.getJSONObject(i).getString("last_updated_date");
+                                Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+                                CricketModel cm = new CricketModel();
+                                cm.setUnique(unique);
+                                cm.setTeam(team);
+                                cm.setRank(rank);
+                                cm.setMatches(matches);
+                                cm.setPoints(points);
+                                cm.setLastUpdatedDate(last_updated_date);
+                                list.add(cm);
+                            }
+                            JSONArray arrayTestBowling = json.getJSONArray("Test-Bowling-Ranking-Players");
+                            for (int i=0; i<arrayTestBowling.length();i++){
+                                int unique = 3;
+                                String team = arrayTestBatting.getJSONObject(i).getString("player_name");
+                                String rank = arrayTestBatting.getJSONObject(i).getString("country");
+                                String matches = arrayTestBatting.getJSONObject(i).getString("rank");
+                                String points = arrayTestBatting.getJSONObject(i).getString("rating");
+                                String last_updated_date = arrayTestBatting.getJSONObject(i).getString("last_updated_date");
+                                Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+                                CricketModel cm = new CricketModel();
+                                cm.setUnique(unique);
+                                cm.setTeam(team);
+                                cm.setRank(rank);
+                                cm.setMatches(matches);
+                                cm.setPoints(points);
+                                cm.setLastUpdatedDate(last_updated_date);
+                                list.add(cm);
                             }
                         }catch (JSONException e){
                             Log.e("CricketRecordTest",e.toString());
                         }
 
                         if(text.equals("Test")) {
-//                            CricketTestAdapter adapter = new CricketTestAdapter(getActivity(), list);
-//                            test_record_recycler.setAdapter(adapter);
+                            CricketTestAdapter adapter = new CricketTestAdapter(getActivity(), list);
+                            test_record_recycler.setAdapter(adapter);
                         }else if(text.equals("ODI")){
 
                         }else if(text.equals("T20")){

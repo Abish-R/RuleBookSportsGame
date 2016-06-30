@@ -75,10 +75,19 @@ public class CricketRankings extends Fragment {
         mTabHost = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
-        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Test", null), CricketHistory.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("ODI", null),CricketHistory.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("T20", null), CricketHistory.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("tab4").setIndicator("Players", null), CricketHistory.class, null);
+        Bundle b = new Bundle();
+        b.putString("invoked","Test");
+        Bundle b1 = new Bundle();
+        b1.putString("invoked","ODI");
+        Bundle b2 = new Bundle();
+        b2.putString("invoked","T20");
+        Bundle b3 = new Bundle();
+        b3.putString("invoked","Players");
+
+        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Test", null), CricketRecordsAdapterDecider.class, b);
+        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("ODI", null),CricketRecordsAdapterDecider.class, b1);
+        mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("T20", null), CricketRecordsAdapterDecider.class, b2);
+        mTabHost.addTab(mTabHost.newTabSpec("tab4").setIndicator("Players", null), CricketRecordsAdapterDecider.class, b3);
 //        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
 //            @Override
 //            public void onTabChanged(String tabId) {

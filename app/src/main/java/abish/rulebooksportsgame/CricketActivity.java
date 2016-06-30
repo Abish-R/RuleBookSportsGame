@@ -69,37 +69,37 @@ public class CricketActivity extends AppCompatActivity implements TabLayout.OnTa
     @Override
     public void onStart() {
         super.onStart();
-        Toast.makeText(this, "I am Starter", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "I am Starter", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Toast.makeText(this, "I am Pauser", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "I am Pauser", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(this, "I am Resumer", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "I am Resumer", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Toast.makeText(this, "I am Stoper", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "I am Stoper", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "I am Destroyer", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "I am Destroyer", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRestart() {
         super.onRestart();
-        Toast.makeText(this, "I am Restarter", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "I am Restarter", Toast.LENGTH_SHORT).show();
     }
 
 
