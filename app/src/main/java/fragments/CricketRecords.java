@@ -1,15 +1,40 @@
 package fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import Constants.WebserviceLinks;
+import abish.rulebooksportsgame.AppController;
+import abish.rulebooksportsgame.CricketModel;
 import abish.rulebooksportsgame.R;
+import abish.rulebooksportsgame.adapter.CricketTestAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +57,9 @@ public class CricketRecords extends Fragment {
     FragmentTabHost mTabHost;
     View view;
     Context context;
+    RecyclerView record_recycler;
+    String calledfrom;
+    List<CricketModel> list;
 
     private OnFragmentInteractionListener mListener;
 
@@ -72,22 +100,28 @@ public class CricketRecords extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.cricket_tabrecords, container, false);
-        mTabHost = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
-        mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
+        record_recycler = (RecyclerView) view.findViewById(R.id.record_recycler);
 
-        Bundle b = new Bundle();
-        b.putString("invoked","Test");
-        Bundle b1 = new Bundle();
-        b1.putString("invoked","ODI");
-        Bundle b2 = new Bundle();
-        b2.putString("invoked","T20");
-        Bundle b3 = new Bundle();
-        b3.putString("invoked","Players");
-
-        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Test", null), CricketRecordsAdapterDecider.class, b);
-        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("ODI", null),CricketRecordsAdapterDecider.class, b1);
-        mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("T20", null), CricketRecordsAdapterDecider.class, b2);
-        mTabHost.addTab(mTabHost.newTabSpec("tab4").setIndicator("Players", null), CricketRecordsAdapterDecider.class, b3);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        record_recycler.setLayoutManager(mLayoutManager);
+        record_recycler.setItemAnimator(new DefaultItemAnimator());
+        GetResponseString("Test");
+//        mTabHost = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
+//        mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
+//
+//        Bundle b = new Bundle();
+//        b.putString("invoked","Test");
+//        Bundle b1 = new Bundle();
+//        b1.putString("invoked","ODI");
+//        Bundle b2 = new Bundle();
+//        b2.putString("invoked","T20");
+//        Bundle b3 = new Bundle();
+//        b3.putString("invoked","Players");
+//
+//        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Test", null), CricketRecordsAdapterDecider.class, b);
+//        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("ODI", null),CricketRecordsAdapterDecider.class, b1);
+//        mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("T20", null), CricketRecordsAdapterDecider.class, b2);
+//        mTabHost.addTab(mTabHost.newTabSpec("tab4").setIndicator("Players", null), CricketRecordsAdapterDecider.class, b3);
 //        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
 //            @Override
 //            public void onTabChanged(String tabId) {
@@ -138,5 +172,120 @@ public class CricketRecords extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void GetResponseString(final String text){
+        // Tag used to cancel the request
+        final String tag_json_obj = "string_req";
+
+        String url = WebserviceLinks.cricketRanking+text;
+
+        final ProgressDialog pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+
+        StringRequest req = new StringRequest(Request.Method.GET,
+                url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response) {
+                        pDialog.hide();
+                        setValuesInList(response,text);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // handle error response
+                        pDialog.hide();
+                        Snackbar snackbar = Snackbar
+                                .make(view, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
+                                .setAction("RETRY", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        GetResponseString("Test");
+                                    }
+                                });
+                        snackbar.setActionTextColor(Color.RED);
+                        View sbView = snackbar.getView();
+                        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                        textView.setTextColor(Color.YELLOW);
+                        snackbar.show();
+
+                    }
+                });
+
+// Adding request to request queue
+        AppController.getInstance().addToRequestQueue(req, tag_json_obj);
+        //return valiue;
+    }
+
+    private void setValuesInList(String response, String text){
+        list = new ArrayList<CricketModel>();
+        try {
+            JSONObject json = new JSONObject(response);
+            JSONArray arrayTestTeam = json.getJSONArray("Test-Ranking-Team");
+            setValueInModelCallAdapter(1,"Team","Rank","Matches","Points","Date");
+            for (int i=0; i<arrayTestTeam.length();i++){
+                int unique = 0;
+                String team = arrayTestTeam.getJSONObject(i).getString("team");
+                String rank = arrayTestTeam.getJSONObject(i).getString("rank");
+                String matches = arrayTestTeam.getJSONObject(i).getString("matches");
+                String points = arrayTestTeam.getJSONObject(i).getString("points");
+                String last_updated_date = arrayTestTeam.getJSONObject(i).getString("last_updated_date");
+                //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+                setValueInModelCallAdapter(unique,team,rank,matches,points,last_updated_date);
+            }
+
+            JSONArray arrayTestBatting = json.getJSONArray("Test-Batting-Ranking-Players");
+            setValueInModelCallAdapter(3,"Player","Nation","Rank","Rating","Date");
+            for (int i=0; i<arrayTestBatting.length();i++){
+                int unique = 0;
+                String team = arrayTestBatting.getJSONObject(i).getString("player_name");
+                String rank = arrayTestBatting.getJSONObject(i).getString("country");
+                String matches = arrayTestBatting.getJSONObject(i).getString("rank");
+                String points = arrayTestBatting.getJSONObject(i).getString("rating");
+                String last_updated_date = arrayTestBatting.getJSONObject(i).getString("last_updated_date");
+                //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+                setValueInModelCallAdapter(unique,team,rank,matches,points,last_updated_date);
+            }
+            JSONArray arrayTestBowling = json.getJSONArray("Test-Bowling-Ranking-Players");
+            setValueInModelCallAdapter(3,"Player","Nation","Rank","Rating","Date");
+            for (int i=0; i<arrayTestBowling.length();i++){
+                int unique = 0;
+                String team = arrayTestBowling.getJSONObject(i).getString("player_name");
+                String rank = arrayTestBowling.getJSONObject(i).getString("country");
+                String matches = arrayTestBowling.getJSONObject(i).getString("rank");
+                String points = arrayTestBowling.getJSONObject(i).getString("rating");
+                String last_updated_date = arrayTestBowling.getJSONObject(i).getString("last_updated_date");
+                //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+                setValueInModelCallAdapter(unique,team,rank,matches,points,last_updated_date);
+
+            }
+        }catch (JSONException e){
+            Log.e("CricketRecordTest",e.toString());
+        }
+
+        if(text.equals("Test")) {
+            CricketTestAdapter adapter = new CricketTestAdapter(getActivity(), list);
+            record_recycler.setAdapter(adapter);
+        }else if(text.equals("ODI")){
+
+        }else if(text.equals("T20")){
+
+        }else if(text.equals("Players")){
+
+        }
+    }
+
+    private void setValueInModelCallAdapter(int unique,String team, String rank, String matches, String points, String last_updated_date){
+        CricketModel cm = new CricketModel();
+        cm.setUnique(unique);
+        cm.setTeam(team);
+        cm.setRank(rank);
+        cm.setMatches(matches);
+        cm.setPoints(points);
+        cm.setLastUpdatedDate(last_updated_date);
+        list.add(cm);
     }
 }
