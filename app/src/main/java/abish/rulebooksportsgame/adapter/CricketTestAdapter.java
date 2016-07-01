@@ -1,22 +1,18 @@
 package abish.rulebooksportsgame.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import Constants.Constant;
-import abish.rulebooksportsgame.CricketActivity;
 import abish.rulebooksportsgame.CricketModel;
 import abish.rulebooksportsgame.R;
 
@@ -40,9 +36,9 @@ public class CricketTestAdapter extends RecyclerView.Adapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType==0)
-            return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cricketrecordtestcard, parent, false));
+            return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cricketrank_record_valuecard, parent, false));
         else
-            return new MyViewHolder1(LayoutInflater.from(parent.getContext()).inflate(R.layout.cricketrankingtitlecard, parent, false));
+            return new MyViewHolder1(LayoutInflater.from(parent.getContext()).inflate(R.layout.cricketrank_record_titlecard, parent, false));
 
     }
 
@@ -162,11 +158,11 @@ public class CricketTestAdapter extends RecyclerView.Adapter{
                 rl.setVisibility(View.VISIBLE);
                 text5.setText(items.get(position+1).getLastUpdatedDate());
             }else if(items.get(position).getUnique()==2 && position == 11) {
-                text.setText("Player Batting ranking");
+                text.setText("Batting Ranking");
                 rl.setVisibility(View.VISIBLE);
                 text5.setText(items.get(position+1).getLastUpdatedDate());
             }else if(items.get(position).getUnique()==3 && position == 22) {
-                text.setText("Player Bowling Ranking");
+                text.setText("Bowling Ranking");
                 rl.setVisibility(View.VISIBLE);
                 text5.setText(items.get(position+1).getLastUpdatedDate());
             }

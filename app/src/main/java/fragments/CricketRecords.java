@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -99,7 +98,7 @@ public class CricketRecords extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.cricket_tabrecords, container, false);
+        view = inflater.inflate(R.layout.cricket_tabranking_records, container, false);
         record_recycler = (RecyclerView) view.findViewById(R.id.record_recycler);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -238,24 +237,24 @@ public class CricketRecords extends Fragment {
             }
 
             JSONArray arrayTestBatting = json.getJSONArray("Test-Batting-Ranking-Players");
-            setValueInModelCallAdapter(3,"Player","Nation","Rank","Rating","Date");
+            setValueInModelCallAdapter(2,"Player","Rank","Nation","Rating","Date");
             for (int i=0; i<arrayTestBatting.length();i++){
                 int unique = 0;
                 String team = arrayTestBatting.getJSONObject(i).getString("player_name");
-                String rank = arrayTestBatting.getJSONObject(i).getString("country");
-                String matches = arrayTestBatting.getJSONObject(i).getString("rank");
+                String rank = arrayTestBatting.getJSONObject(i).getString("rank");
+                String matches = arrayTestBatting.getJSONObject(i).getString("country");
                 String points = arrayTestBatting.getJSONObject(i).getString("rating");
                 String last_updated_date = arrayTestBatting.getJSONObject(i).getString("last_updated_date");
                 //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
                 setValueInModelCallAdapter(unique,team,rank,matches,points,last_updated_date);
             }
             JSONArray arrayTestBowling = json.getJSONArray("Test-Bowling-Ranking-Players");
-            setValueInModelCallAdapter(3,"Player","Nation","Rank","Rating","Date");
+            setValueInModelCallAdapter(3,"Player","Rank","Nation","Rating","Date");
             for (int i=0; i<arrayTestBowling.length();i++){
                 int unique = 0;
                 String team = arrayTestBowling.getJSONObject(i).getString("player_name");
-                String rank = arrayTestBowling.getJSONObject(i).getString("country");
-                String matches = arrayTestBowling.getJSONObject(i).getString("rank");
+                String rank = arrayTestBowling.getJSONObject(i).getString("rank");
+                String matches = arrayTestBowling.getJSONObject(i).getString("country");
                 String points = arrayTestBowling.getJSONObject(i).getString("rating");
                 String last_updated_date = arrayTestBowling.getJSONObject(i).getString("last_updated_date");
                 //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
@@ -265,10 +264,12 @@ public class CricketRecords extends Fragment {
         }catch (JSONException e){
             Log.e("CricketRecordTest",e.toString());
         }
+        CricketTestAdapter adapter = new CricketTestAdapter(getActivity(), list);
+        record_recycler.setAdapter(adapter);
 
         if(text.equals("Test")) {
-            CricketTestAdapter adapter = new CricketTestAdapter(getActivity(), list);
-            record_recycler.setAdapter(adapter);
+//            CricketTestAdapter adapter = new CricketTestAdapter(getActivity(), list);
+//            record_recycler.setAdapter(adapter);
         }else if(text.equals("ODI")){
 
         }else if(text.equals("T20")){
