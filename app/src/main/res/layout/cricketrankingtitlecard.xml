@@ -2,50 +2,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:background="@color/grey_light1"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/text"
+            android:text="Title"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/text5"
+            android:text="Last Update"
+            android:paddingRight="5dp"
+            android:textColor="@color/black"
+            android:layout_below="@+id/text"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
     <!--HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"-->
+        android:layout_height="wrap_conten"-->
         <android.support.v7.widget.CardView
             android:id="@+id/card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:padding="10dp"
+                android:weightSum="2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/text1"
-                    android:textSize="18dp"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
                     android:paddingLeft="5dp"
-                    android:paddingRight="7dp"
+                    android:paddingRight="5dp"
                     android:textColor="@color/black"
                     android:layout_weight=".5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/text2"
-                    android:textSize="18dp"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
                     android:paddingLeft="5dp"
-                    android:paddingRight="7dp"
+                    android:paddingRight="5dp"
                     android:textColor="@color/black"
                     android:layout_weight=".5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/text3"
-                    android:textSize="18dp"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
                     android:paddingLeft="5dp"
-                    android:paddingRight="7dp"
+                    android:paddingRight="5dp"
                     android:textColor="@color/black"
                     android:layout_weight=".5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/text4"
-                    android:textSize="18dp"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
                     android:paddingLeft="5dp"
-                    android:paddingRight="7dp"
+                    android:paddingRight="5dp"
                     android:textColor="@color/black"
                     android:layout_weight=".5"
                     android:layout_width="0dp"
@@ -54,39 +84,5 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
     <!--/HorizontalScrollView-->
-
-    <!--HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/team"
-                    android:text="Team"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/rank"
-                    android:text="Team"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/matches"
-                    android:text="Team"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/points"
-                    android:text="Team"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-    </HorizontalScrollView-->
 
 </LinearLayout>
