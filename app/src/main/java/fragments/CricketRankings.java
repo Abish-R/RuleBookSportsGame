@@ -173,11 +173,14 @@ public class CricketRankings extends Fragment implements View.OnClickListener {
 
     private void initializeViews(){
         test=(Button)view.findViewById(R.id.test);
-        odi=(Button)view.findViewById(R.id.test);
-        t20=(Button)view.findViewById(R.id.test);
-        women=(Button)view.findViewById(R.id.test);
+        odi=(Button)view.findViewById(R.id.odi);
+        t20=(Button)view.findViewById(R.id.t20);
+        women=(Button)view.findViewById(R.id.women);
         record_recycler = (RecyclerView) view.findViewById(R.id.record_recycler);
         test.setOnClickListener(this);
+        odi.setOnClickListener(this);
+        t20.setOnClickListener(this);
+        women.setOnClickListener(this);
 
     }
 
@@ -204,38 +207,38 @@ public class CricketRankings extends Fragment implements View.OnClickListener {
             Toast.makeText(context,"You are here",Toast.LENGTH_LONG).show();
         else{
             if(code==1) {
-                changeNormalColor();
+                changeNormalColor(code);
                 test.setBackgroundColor(getResources().getColor(R.color.white));
                 GetResponseString("Test");
             }
             else if(code==2) {
-                changeNormalColor();
+                changeNormalColor(code);
                 odi.setBackgroundColor(getResources().getColor(R.color.white));
                 GetResponseString("ODI");
             }
             else if(code==3) {
-                changeNormalColor();
+                changeNormalColor(code);
                 t20.setBackgroundColor(getResources().getColor(R.color.white));
                 GetResponseString("T20");
             }
-            else if(code==3) {
-                changeNormalColor();
+            else if(code==4) {
+                changeNormalColor(code);
                 women.setBackgroundColor(getResources().getColor(R.color.white));
                 GetResponseString("All");
             }
         }
     }
 
-    private void changeNormalColor(){
+    private void changeNormalColor(int code){
         if(lastPressed==1)
             test.setBackgroundColor(getResources().getColor(R.color.black));
         else if(lastPressed==2)
-            test.setBackgroundColor(getResources().getColor(R.color.black));
+            odi.setBackgroundColor(getResources().getColor(R.color.black));
         else if(lastPressed==3)
-            test.setBackgroundColor(getResources().getColor(R.color.black));
+            t20.setBackgroundColor(getResources().getColor(R.color.black));
         else if(lastPressed==4)
-            test.setBackgroundColor(getResources().getColor(R.color.black));
-        lastPressed=nowPressed;
+            women.setBackgroundColor(getResources().getColor(R.color.black));
+        lastPressed=code;
     }
 
     public void GetResponseString(final String text){
@@ -288,7 +291,7 @@ public class CricketRankings extends Fragment implements View.OnClickListener {
         list = new ArrayList<CricketModel>();
         try {
             JSONObject json = new JSONObject(response);
-            JSONArray arrayTestTeam = json.getJSONArray("Test-Ranking-Team");
+            JSONArray arrayTestTeam = json.getJSONArray("Team-Ranking");
             setValueInModelCallAdapter(1,"Team","Rank","Matches","Points","Date");
             for (int i=0; i<arrayTestTeam.length();i++){
                 int unique = 0;
@@ -301,7 +304,7 @@ public class CricketRankings extends Fragment implements View.OnClickListener {
                 setValueInModelCallAdapter(unique,team,rank,matches,points,last_updated_date);
             }
 
-            JSONArray arrayTestBatting = json.getJSONArray("Test-Batting-Ranking-Players");
+            JSONArray arrayTestBatting = json.getJSONArray("Batting-Ranking");
             setValueInModelCallAdapter(2,"Player","Rank","Nation","Rating","Date");
             for (int i=0; i<arrayTestBatting.length();i++){
                 int unique = 0;
@@ -313,7 +316,7 @@ public class CricketRankings extends Fragment implements View.OnClickListener {
                 //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
                 setValueInModelCallAdapter(unique,team,rank,matches,points,last_updated_date);
             }
-            JSONArray arrayTestBowling = json.getJSONArray("Test-Bowling-Ranking-Players");
+            JSONArray arrayTestBowling = json.getJSONArray("Bowling-Ranking");
             setValueInModelCallAdapter(3,"Player","Rank","Nation","Rating","Date");
             for (int i=0; i<arrayTestBowling.length();i++){
                 int unique = 0;

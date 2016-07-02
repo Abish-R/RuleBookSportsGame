@@ -1,5 +1,6 @@
 package abish.rulebooksportsgame.adapter;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,6 +26,7 @@ import abish.rulebooksportsgame.R;
 public class CricketTestAdapter extends RecyclerView.Adapter{
     private List<CricketModel> items;
     Context context;
+    private Interpolator mInterpolator = new LinearInterpolator();
 
     public CricketTestAdapter(Context con, List<CricketModel> itemslist) {
         context=con;
@@ -127,8 +132,31 @@ public class CricketTestAdapter extends RecyclerView.Adapter{
             text4.setText(items.get(position).getPoints());
 
             //holder.img.setImageResource(R.drawable.ic_menu_camera);
+            setFadeAnimation(mCardView);
+            animate(mCardView,position);
             mCardView.setTag(position);
+//            for (Animator anim : getAnimators(mCardView)) {
+//                anim.setDuration(1000).start();
+//                anim.setInterpolator(mInterpolator);
+//            }
 
+
+        }
+
+        //protected abstract Animator[] getAnimators(View view);
+
+        private void animate(View view, final int pos) {
+            view.animate().cancel();
+            view.setTranslationY(300);
+            view.setAlpha(0);
+            view.animate().alpha(1.0f).translationY(0).setDuration(300).setStartDelay(100);//pos * 100
+        }
+
+        private void setFadeAnimation(View view) {
+            AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(100);
+            anim.setInterpolator(mInterpolator);
+            view.startAnimation(anim);
         }
     }
 
@@ -172,8 +200,14 @@ public class CricketTestAdapter extends RecyclerView.Adapter{
             text4.setText(items.get(position).getPoints());
 
             //holder.img.setImageResource(R.drawable.ic_menu_camera);
+            setFadeAnimation(mCardView);
             mCardView.setTag(position);
 
+        }
+        private void setFadeAnimation(View view) {
+            AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(2000);
+            view.startAnimation(anim);
         }
     }
 }
