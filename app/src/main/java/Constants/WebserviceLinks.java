@@ -7,4 +7,5 @@ public class WebserviceLinks {
 
 public static String baseUrl = "http://httest.in/sportsws/";
     public static  String cricketRanking = baseUrl+"cricketranking/game_format/";
+    public static  String cricketSchedule = baseUrl+"fixtures";
 }

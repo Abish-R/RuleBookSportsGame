@@ -8,6 +8,7 @@ import fragments.CricketHistory;
 import fragments.CricketRankings;
 import fragments.CricketRecords;
 import fragments.CricketRules;
+import fragments.CricketSchedule;
 
 /**
  * Created by INDP on 26-Jun-16.
@@ -41,6 +42,9 @@ public class Pager extends FragmentStatePagerAdapter {
             case 3:
                 CricketRecords tab4 = new CricketRecords();
                 return tab4;
+            case 4:
+                CricketSchedule tab5 = new CricketSchedule();
+                return tab5;
             default:
                 return null;
         }

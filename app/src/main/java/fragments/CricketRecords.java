@@ -31,9 +31,9 @@ import java.util.List;
 
 import Constants.WebserviceLinks;
 import abish.rulebooksportsgame.AppController;
-import abish.rulebooksportsgame.CricketModel;
+import abish.rulebooksportsgame.CricketRankingModel;
 import abish.rulebooksportsgame.R;
-import abish.rulebooksportsgame.adapter.CricketTestAdapter;
+import abish.rulebooksportsgame.adapter.CricketRankingAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +58,7 @@ public class CricketRecords extends Fragment {
     Context context;
     RecyclerView record_recycler;
     String calledfrom;
-    List<CricketModel> list;
+    List<CricketRankingModel> list;
 
     private OnFragmentInteractionListener mListener;
 
@@ -98,7 +98,7 @@ public class CricketRecords extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.cricket_tabranking_records, container, false);
+        view = inflater.inflate(R.layout.cricket_tabranking, container, false);
         record_recycler = (RecyclerView) view.findViewById(R.id.record_recycler);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -220,10 +220,10 @@ public class CricketRecords extends Fragment {
     }
 
     private void setValuesInList(String response, String text){
-        list = new ArrayList<CricketModel>();
+        list = new ArrayList<CricketRankingModel>();
         try {
             JSONObject json = new JSONObject(response);
-            JSONArray arrayTestTeam = json.getJSONArray("Test-Ranking-Team");
+            JSONArray arrayTestTeam = json.getJSONArray("Team-Ranking");
             setValueInModelCallAdapter(1,"Team","Rank","Matches","Points","Date");
             for (int i=0; i<arrayTestTeam.length();i++){
                 int unique = 0;
@@ -236,7 +236,7 @@ public class CricketRecords extends Fragment {
                 setValueInModelCallAdapter(unique,team,rank,matches,points,last_updated_date);
             }
 
-            JSONArray arrayTestBatting = json.getJSONArray("Test-Batting-Ranking-Players");
+            JSONArray arrayTestBatting = json.getJSONArray("Batting-Ranking");
             setValueInModelCallAdapter(2,"Player","Rank","Nation","Rating","Date");
             for (int i=0; i<arrayTestBatting.length();i++){
                 int unique = 0;
@@ -248,7 +248,7 @@ public class CricketRecords extends Fragment {
                 //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
                 setValueInModelCallAdapter(unique,team,rank,matches,points,last_updated_date);
             }
-            JSONArray arrayTestBowling = json.getJSONArray("Test-Bowling-Ranking-Players");
+            JSONArray arrayTestBowling = json.getJSONArray("Bowling-Ranking");
             setValueInModelCallAdapter(3,"Player","Rank","Nation","Rating","Date");
             for (int i=0; i<arrayTestBowling.length();i++){
                 int unique = 0;
@@ -264,7 +264,7 @@ public class CricketRecords extends Fragment {
         }catch (JSONException e){
             Log.e("CricketRecordTest",e.toString());
         }
-        CricketTestAdapter adapter = new CricketTestAdapter(getActivity(), list);
+        CricketRankingAdapter adapter = new CricketRankingAdapter(getActivity(), list);
         record_recycler.setAdapter(adapter);
 
         if(text.equals("Test")) {
@@ -280,7 +280,7 @@ public class CricketRecords extends Fragment {
     }
 
     private void setValueInModelCallAdapter(int unique,String team, String rank, String matches, String points, String last_updated_date){
-        CricketModel cm = new CricketModel();
+        CricketRankingModel cm = new CricketRankingModel();
         cm.setUnique(unique);
         cm.setTeam(team);
         cm.setRank(rank);

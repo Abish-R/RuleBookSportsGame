@@ -34,9 +34,9 @@ import java.util.List;
 
 import Constants.WebserviceLinks;
 import abish.rulebooksportsgame.AppController;
-import abish.rulebooksportsgame.CricketModel;
+import abish.rulebooksportsgame.CricketRankingModel;
 import abish.rulebooksportsgame.R;
-import abish.rulebooksportsgame.adapter.CricketTestAdapter;
+import abish.rulebooksportsgame.adapter.CricketRankingAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -112,8 +112,8 @@ public class CricketRecordsAdapterDecider extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.cricket_records_test, container, false);
-        test_record_recycler = (RecyclerView) view.findViewById(R.id.test_record_recycler);
+        view = inflater.inflate(R.layout.cricket_tabranking, container, false);
+        test_record_recycler = (RecyclerView) view.findViewById(R.id.record_recycler);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         test_record_recycler.setLayoutManager(mLayoutManager);
@@ -179,7 +179,7 @@ public class CricketRecordsAdapterDecider extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         pDialog.hide();
-                        List<CricketModel> list = new ArrayList<CricketModel>();
+                        List<CricketRankingModel> list = new ArrayList<CricketRankingModel>();
                         try {
                             JSONObject json = new JSONObject(response);
                             JSONArray arrayTestTeam = json.getJSONArray("Test-Ranking-Team");
@@ -191,7 +191,7 @@ public class CricketRecordsAdapterDecider extends Fragment {
                                 String points = arrayTestTeam.getJSONObject(i).getString("points");
                                 String last_updated_date = arrayTestTeam.getJSONObject(i).getString("last_updated_date");
                                 Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                                CricketModel cm = new CricketModel();
+                                CricketRankingModel cm = new CricketRankingModel();
                                 cm.setUnique(unique);
                                 cm.setTeam(team);
                                 cm.setRank(rank);
@@ -210,7 +210,7 @@ public class CricketRecordsAdapterDecider extends Fragment {
                                 String points = arrayTestBatting.getJSONObject(i).getString("rating");
                                 String last_updated_date = arrayTestBatting.getJSONObject(i).getString("last_updated_date");
                                 Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                                CricketModel cm = new CricketModel();
+                                CricketRankingModel cm = new CricketRankingModel();
                                 cm.setUnique(unique);
                                 cm.setTeam(team);
                                 cm.setRank(rank);
@@ -228,7 +228,7 @@ public class CricketRecordsAdapterDecider extends Fragment {
                                 String points = arrayTestBatting.getJSONObject(i).getString("rating");
                                 String last_updated_date = arrayTestBatting.getJSONObject(i).getString("last_updated_date");
                                 Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                                CricketModel cm = new CricketModel();
+                                CricketRankingModel cm = new CricketRankingModel();
                                 cm.setUnique(unique);
                                 cm.setTeam(team);
                                 cm.setRank(rank);
@@ -242,7 +242,7 @@ public class CricketRecordsAdapterDecider extends Fragment {
                         }
 
                         if(text.equals("Test")) {
-                            CricketTestAdapter adapter = new CricketTestAdapter(getActivity(), list);
+                            CricketRankingAdapter adapter = new CricketRankingAdapter(getActivity(), list);
                             test_record_recycler.setAdapter(adapter);
                         }else if(text.equals("ODI")){
 

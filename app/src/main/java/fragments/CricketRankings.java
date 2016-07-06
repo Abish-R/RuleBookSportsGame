@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTabHost;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,9 +32,9 @@ import java.util.List;
 
 import Constants.WebserviceLinks;
 import abish.rulebooksportsgame.AppController;
-import abish.rulebooksportsgame.CricketModel;
+import abish.rulebooksportsgame.CricketRankingModel;
 import abish.rulebooksportsgame.R;
-import abish.rulebooksportsgame.adapter.CricketTestAdapter;
+import abish.rulebooksportsgame.adapter.CricketRankingAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,7 +59,7 @@ public class CricketRankings extends Fragment implements View.OnClickListener {
     Context context;
     RecyclerView record_recycler;
     String calledfrom;
-    List<CricketModel> list;
+    List<CricketRankingModel> list;
     Button test,odi,t20,women;
     int lastPressed=1,nowPressed=0;
 
@@ -95,12 +94,15 @@ public class CricketRankings extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.cricket_tabranking_records, container, false);
+        view = inflater.inflate(R.layout.cricket_tabranking, container, false);
         initializeViews();
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+//        LinearLayoutManager layoutManager
+//                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());//,LinearLayoutManager.HORIZONTAL, false
         record_recycler.setLayoutManager(mLayoutManager);
         record_recycler.setItemAnimator(new DefaultItemAnimator());
+        test.setBackgroundColor(getResources().getColor(R.color.white));
         GetResponseString("Test");
         //mTabHost = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
         //mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
@@ -231,13 +233,13 @@ public class CricketRankings extends Fragment implements View.OnClickListener {
 
     private void changeNormalColor(int code){
         if(lastPressed==1)
-            test.setBackgroundColor(getResources().getColor(R.color.black));
+            test.setBackgroundColor(getResources().getColor(R.color.grey_light1));
         else if(lastPressed==2)
-            odi.setBackgroundColor(getResources().getColor(R.color.black));
+            odi.setBackgroundColor(getResources().getColor(R.color.grey_light1));
         else if(lastPressed==3)
-            t20.setBackgroundColor(getResources().getColor(R.color.black));
+            t20.setBackgroundColor(getResources().getColor(R.color.grey_light1));
         else if(lastPressed==4)
-            women.setBackgroundColor(getResources().getColor(R.color.black));
+            women.setBackgroundColor(getResources().getColor(R.color.grey_light1));
         lastPressed=code;
     }
 
@@ -288,7 +290,7 @@ public class CricketRankings extends Fragment implements View.OnClickListener {
     }
 
     private void setValuesInList(String response, String text){
-        list = new ArrayList<CricketModel>();
+        list = new ArrayList<CricketRankingModel>();
         try {
             JSONObject json = new JSONObject(response);
             JSONArray arrayTestTeam = json.getJSONArray("Team-Ranking");
@@ -332,7 +334,7 @@ public class CricketRankings extends Fragment implements View.OnClickListener {
         }catch (JSONException e){
             Log.e("CricketRecordTest",e.toString());
         }
-        CricketTestAdapter adapter = new CricketTestAdapter(getActivity(), list);
+        CricketRankingAdapter adapter = new CricketRankingAdapter(getActivity(), list);
         record_recycler.setAdapter(adapter);
 
         if(text.equals("Test")) {
@@ -348,7 +350,7 @@ public class CricketRankings extends Fragment implements View.OnClickListener {
     }
 
     private void setValueInModelCallAdapter(int unique,String team, String rank, String matches, String points, String last_updated_date){
-        CricketModel cm = new CricketModel();
+        CricketRankingModel cm = new CricketRankingModel();
         cm.setUnique(unique);
         cm.setTeam(team);
         cm.setRank(rank);

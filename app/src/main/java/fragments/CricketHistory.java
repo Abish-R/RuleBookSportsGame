@@ -4,13 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import Constants.ConstantCricket;
+import abish.rulebooksportsgame.AppController;
 import abish.rulebooksportsgame.R;
 
 /**
@@ -27,6 +32,7 @@ public class CricketHistory extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private Tracker mTracker;
     View view;
     TextView text1, text2, text3, text4, text5, text6, text7, text8, text9;
     TextView subtitletext1, subtitletext2, subtitletext3, subtitletext4, subtitletext5, subtitletext6, subtitletext7, subtitletext8;
@@ -67,12 +73,23 @@ public class CricketHistory extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        AppController application = (AppController) getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
 
         Bundle arguments = getArguments();
         if (arguments!=null) {
             String i = arguments.getString("invoked");
             Toast.makeText(getActivity(), i, Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("on cricket history", "Setting screen name: " + "cricket history");
+        mTracker.setScreenName("cricket history");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
     }
 
     @Override

@@ -60,7 +60,7 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.rowitem_mainpage, parent, false);
+                .inflate(R.layout.sports_mainpage_rowitem, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -70,7 +70,15 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MyView
         holder.text.setText(items.get(position));
         holder.img.setImageResource(R.drawable.ic_menu_camera);
         holder.mCardView.setTag(position);
+        animate(holder.mCardView,position);
+    }
 
+    private void animate(View view, final int pos) {
+        view.animate().cancel();
+        view.setTranslationX(-200);
+        view.setTranslationY(300);
+        view.setAlpha(0);
+        view.animate().alpha(1.0f).translationX(0).translationY(0).setDuration(500).setStartDelay(100);//pos * 100
     }
 
     @Override

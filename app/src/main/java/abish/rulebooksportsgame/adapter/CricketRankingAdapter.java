@@ -1,6 +1,5 @@
 package abish.rulebooksportsgame.adapter;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -17,18 +16,18 @@ import android.widget.TextView;
 import java.util.List;
 
 import Constants.Constant;
-import abish.rulebooksportsgame.CricketModel;
+import abish.rulebooksportsgame.CricketRankingModel;
 import abish.rulebooksportsgame.R;
 
 /**
  * Created by helixtech-android on 29/6/16.
  */
-public class CricketTestAdapter extends RecyclerView.Adapter{
-    private List<CricketModel> items;
+public class CricketRankingAdapter extends RecyclerView.Adapter{
+    private List<CricketRankingModel> items;
     Context context;
     private Interpolator mInterpolator = new LinearInterpolator();
 
-    public CricketTestAdapter(Context con, List<CricketModel> itemslist) {
+    public CricketRankingAdapter(Context con, List<CricketRankingModel> itemslist) {
         context=con;
         this.items = itemslist;
     }
@@ -41,9 +40,9 @@ public class CricketTestAdapter extends RecyclerView.Adapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType==0)
-            return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cricketrank_record_valuecard, parent, false));
+            return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cricketrank_valuecard, parent, false));
         else
-            return new MyViewHolder1(LayoutInflater.from(parent.getContext()).inflate(R.layout.cricketrank_record_titlecard, parent, false));
+            return new MyViewHolder1(LayoutInflater.from(parent.getContext()).inflate(R.layout.cricketrank_titlecard, parent, false));
 
     }
 

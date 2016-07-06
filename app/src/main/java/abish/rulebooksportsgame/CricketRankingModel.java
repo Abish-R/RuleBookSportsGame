@@ -3,11 +3,11 @@ package abish.rulebooksportsgame;
 /**
  * Created by helixtech-android on 30/6/16.
  */
-public class CricketModel {
+public class CricketRankingModel {
     int unique;
     String team,rank,matches,points,last_updated_date;
 
-    public CricketModel(){}
+    public CricketRankingModel(){}
 
     public int getUnique(){
         return unique;
