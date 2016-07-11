@@ -4,41 +4,25 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <HorizontalScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/record_recycler_controller"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="5dp">
-            <Button
-                android:id="@+id/bat_highscore"
-                android:text="Batting High Score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="7dp"
-                android:background="@drawable/bg_rank_record_page_button"/>
-            <Button
-                android:id="@+id/match_highscore"
-                android:text="Batting High Score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="7dp"
-                android:background="@drawable/bg_rank_record_page_button"/>
-            <Button
-                android:id="@+id/best_average"
-                android:text="Batting High Score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="7dp"
-                android:background="@drawable/bg_rank_record_page_button"/>
-        </LinearLayout>
-    </HorizontalScrollView>
+        android:layout_height="35dp" />
+    <TextView
+        android:id="@+id/title"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:text="Best Bowling Figure"
+        android:paddingLeft="5dp"
+        android:paddingRight="3dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:background="@color/grey_light1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/record_recycler"
         android:layout_width="match_parent"
-        android:scrollbars="horizontal"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

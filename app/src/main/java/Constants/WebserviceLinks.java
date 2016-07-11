@@ -6,6 +6,9 @@ package Constants;
 public class WebserviceLinks {
 
 public static String baseUrl = "http://httest.in/sportsws/";
-    public static  String cricketRanking = baseUrl+"cricketranking/game_format/";
-    public static  String cricketSchedule = baseUrl+"fixtures";
+    public static  String cricketRanking = baseUrl+"CricketRankings/game_format/";
+    public static  String cricketSchedule = baseUrl+"MatchFixtures";
+    public static String cricketBattingRecords = baseUrl+"BattingRecords/record_type/";
+    public static String cricketBowlingRecords = baseUrl+"BowlingRecords/record_type/";
+    public static String cricketTeamRecords = baseUrl+"TeamRecords/record_type/";
 }

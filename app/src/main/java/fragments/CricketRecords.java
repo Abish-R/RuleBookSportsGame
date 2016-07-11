@@ -29,21 +29,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import Constants.Constant;
 import Constants.WebserviceLinks;
 import abish.rulebooksportsgame.AppController;
-import abish.rulebooksportsgame.CricketRankingModel;
+import abish.rulebooksportsgame.CallRecordsGetMethod;
+import abish.rulebooksportsgame.Models.CricketRankingModel;
+import abish.rulebooksportsgame.Models.CricketRecordsModel;
 import abish.rulebooksportsgame.R;
 import abish.rulebooksportsgame.adapter.CricketRankingAdapter;
+import abish.rulebooksportsgame.adapter.CricketRecordsAdapter;
+import abish.rulebooksportsgame.adapter.CricketRecordsControlAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CricketRecords.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CricketRecords#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CricketRecords extends Fragment {
+public class CricketRecords extends Fragment implements CallRecordsGetMethod {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -56,9 +53,9 @@ public class CricketRecords extends Fragment {
     FragmentTabHost mTabHost;
     View view;
     Context context;
-    RecyclerView record_recycler;
+    RecyclerView record_recycler_controller,record_recycler;
     String calledfrom;
-    List<CricketRankingModel> list;
+    List<CricketRecordsModel> list;
 
     private OnFragmentInteractionListener mListener;
 
@@ -67,14 +64,8 @@ public class CricketRecords extends Fragment {
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CricketHistory.
+     * Use this factory method to create a new instance of this fragment using the provided parameters.
      */
-    // TODO: Rename and change types and number of parameters
     public static CricketRecords newInstance(String param1, String param2) {
         CricketRecords fragment = new CricketRecords();
         Bundle args = new Bundle();
@@ -98,86 +89,59 @@ public class CricketRecords extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.cricket_tabranking, container, false);
+        view = inflater.inflate(R.layout.cricket_tabrecords, container, false);
+        record_recycler_controller = (RecyclerView) view.findViewById(R.id.record_recycler_controller);
         record_recycler = (RecyclerView) view.findViewById(R.id.record_recycler);
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        record_recycler.setLayoutManager(mLayoutManager);
-        record_recycler.setItemAnimator(new DefaultItemAnimator());
-        GetResponseString("Test");
-//        mTabHost = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
-//        mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
-//
-//        Bundle b = new Bundle();
-//        b.putString("invoked","Test");
-//        Bundle b1 = new Bundle();
-//        b1.putString("invoked","ODI");
-//        Bundle b2 = new Bundle();
-//        b2.putString("invoked","T20");
-//        Bundle b3 = new Bundle();
-//        b3.putString("invoked","Players");
-//
-//        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Test", null), CricketRecordsAdapterDecider.class, b);
-//        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("ODI", null),CricketRecordsAdapterDecider.class, b1);
-//        mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("T20", null), CricketRecordsAdapterDecider.class, b2);
-//        mTabHost.addTab(mTabHost.newTabSpec("tab4").setIndicator("Players", null), CricketRecordsAdapterDecider.class, b3);
-//        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-//            @Override
-//            public void onTabChanged(String tabId) {
-//                if(tabId.equals("tab1"))
-//                    Toast.makeText(context,"Tab 1",Toast.LENGTH_LONG).show();
-//                else if(tabId.equals("tab2"))
-//                    Toast.makeText(context,"Tab 2",Toast.LENGTH_LONG).show();
-//            }
-//        });
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        record_recycler_controller.setLayoutManager(layoutManager);
+        record_recycler_controller.setItemAnimator(new DefaultItemAnimator());
+        setRecordsController();
+
+
         return view;
-    }
-
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        //mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void callUrlCallMethod(String param) {
+        String url;
+        if(param.equals("best_bowlig_figures_in_match") || param.equals("best_career_bowlig_average") || param.equals("most_wickets_in_career"))
+            url=WebserviceLinks.cricketBowlingRecords+param;
+        else if(param.equals("highest_innings_totals") || param.equals("highest_innings_totals"))
+            url=WebserviceLinks.cricketTeamRecords+param;
+        else
+            url=WebserviceLinks.cricketBattingRecords+param;
+
+        GetResponseString(url,param);
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
-    public void GetResponseString(final String text){
-        // Tag used to cancel the request
-        final String tag_json_obj = "string_req";
+    private void setRecordsController(){
+        CricketRecordsControlAdapter adapter = new CricketRecordsControlAdapter(getActivity(),this,Constant.recordsName.length);
+        record_recycler_controller.setAdapter(adapter);
 
-        String url = WebserviceLinks.cricketRanking+text;
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        record_recycler.setLayoutManager(mLayoutManager);
+        record_recycler.setItemAnimator(new DefaultItemAnimator());
+        //callUrlCallMethod("best_bowlig_figures_in_match");
+    }
+
+    public void GetResponseString(final String url,final String text){
+        final String tag_json_obj = "string_req_records";
 
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
@@ -189,7 +153,16 @@ public class CricketRecords extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         pDialog.hide();
-                        setValuesInList(response,text);
+                        JSONObject json;
+                        int validation=0;
+                        try {
+                            json = new JSONObject(response);
+                            validation=json.getInt("response");
+                        }catch (JSONException e){
+
+                        }
+                        if(text.equals("best_bowlig_figures_in_match") && validation==1)
+                            setValuesInList(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -202,7 +175,7 @@ public class CricketRecords extends Fragment {
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        GetResponseString("Test");
+                                        GetResponseString(url,text);
                                     }
                                 });
                         snackbar.setActionTextColor(Color.RED);
@@ -219,74 +192,65 @@ public class CricketRecords extends Fragment {
         //return valiue;
     }
 
-    private void setValuesInList(String response, String text){
-        list = new ArrayList<CricketRankingModel>();
+    private void setValuesInList(String response){
+        list = new ArrayList<CricketRecordsModel>();
         try {
             JSONObject json = new JSONObject(response);
-            JSONArray arrayTestTeam = json.getJSONArray("Team-Ranking");
-            setValueInModelCallAdapter(1,"Team","Rank","Matches","Points","Date");
-            for (int i=0; i<arrayTestTeam.length();i++){
-                int unique = 0;
-                String team = arrayTestTeam.getJSONObject(i).getString("team");
-                String rank = arrayTestTeam.getJSONObject(i).getString("rank");
-                String matches = arrayTestTeam.getJSONObject(i).getString("matches");
-                String points = arrayTestTeam.getJSONObject(i).getString("points");
-                String last_updated_date = arrayTestTeam.getJSONObject(i).getString("last_updated_date");
-                //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                setValueInModelCallAdapter(unique,team,rank,matches,points,last_updated_date);
+
+            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
+            for(int j=0;j<4;j++) {
+                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+                //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
+                for (int i = 0; i < arrayTestTeam.length(); i++) {
+                    int unique=0;String title="";
+                    if(i==0) {
+                        unique = j + 1;
+                        title=jsonArray[j];
+                    }
+                    String titleSet = title;
+                    String player = arrayTestTeam.getJSONObject(i).getString("player_name");
+                    String country = arrayTestTeam.getJSONObject(i).getString("country");
+                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
+                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
+                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
+                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
+                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
+                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
+                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
+                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
+                    String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
+                    //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+                    setValueInModelCallAdapter(unique,title, player, country, oppostition, overs,maidens,runs,
+                            wickets,economy,ground,match_date, last_updated_date);
+                }
             }
 
-            JSONArray arrayTestBatting = json.getJSONArray("Batting-Ranking");
-            setValueInModelCallAdapter(2,"Player","Rank","Nation","Rating","Date");
-            for (int i=0; i<arrayTestBatting.length();i++){
-                int unique = 0;
-                String team = arrayTestBatting.getJSONObject(i).getString("player_name");
-                String rank = arrayTestBatting.getJSONObject(i).getString("rank");
-                String matches = arrayTestBatting.getJSONObject(i).getString("country");
-                String points = arrayTestBatting.getJSONObject(i).getString("rating");
-                String last_updated_date = arrayTestBatting.getJSONObject(i).getString("last_updated_date");
-                //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                setValueInModelCallAdapter(unique,team,rank,matches,points,last_updated_date);
-            }
-            JSONArray arrayTestBowling = json.getJSONArray("Bowling-Ranking");
-            setValueInModelCallAdapter(3,"Player","Rank","Nation","Rating","Date");
-            for (int i=0; i<arrayTestBowling.length();i++){
-                int unique = 0;
-                String team = arrayTestBowling.getJSONObject(i).getString("player_name");
-                String rank = arrayTestBowling.getJSONObject(i).getString("rank");
-                String matches = arrayTestBowling.getJSONObject(i).getString("country");
-                String points = arrayTestBowling.getJSONObject(i).getString("rating");
-                String last_updated_date = arrayTestBowling.getJSONObject(i).getString("last_updated_date");
-                //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                setValueInModelCallAdapter(unique,team,rank,matches,points,last_updated_date);
-
-            }
         }catch (JSONException e){
             Log.e("CricketRecordTest",e.toString());
         }
-        CricketRankingAdapter adapter = new CricketRankingAdapter(getActivity(), list);
+        CricketRecordsAdapter adapter = new CricketRecordsAdapter(getActivity(), list);
         record_recycler.setAdapter(adapter);
-
-        if(text.equals("Test")) {
-//            CricketTestAdapter adapter = new CricketTestAdapter(getActivity(), list);
-//            record_recycler.setAdapter(adapter);
-        }else if(text.equals("ODI")){
-
-        }else if(text.equals("T20")){
-
-        }else if(text.equals("Players")){
-
-        }
     }
 
-    private void setValueInModelCallAdapter(int unique,String team, String rank, String matches, String points, String last_updated_date){
-        CricketRankingModel cm = new CricketRankingModel();
+    private void setValueInModelCallAdapter(int unique,String tit,String player,String country,String oppostition,
+                                            String overs,String maidens,String runs,String wickets,String economy,
+                                            String ground,String match_date,String last_updated_date){
+        CricketRecordsModel cm = new CricketRecordsModel();
         cm.setUnique(unique);
-        cm.setTeam(team);
-        cm.setRank(rank);
-        cm.setMatches(matches);
-        cm.setPoints(points);
+        cm.setTitle(tit);
+        cm.setPlayer(player);
+        cm.setHomeTeam(country);
+        cm.setOppositionTeam(oppostition);
+        cm.setOvers(overs);
+        cm.setMaidens(maidens);
+        cm.setRuns(runs);
+        cm.setWickets(wickets);
+        cm.setEconomy(economy);
+        cm.setVenue(ground);
+        cm.setMatchDate(match_date);
         cm.setLastUpdatedDate(last_updated_date);
         list.add(cm);
     }
+
+
 }

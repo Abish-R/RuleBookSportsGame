@@ -31,8 +31,7 @@ import java.util.List;
 
 import Constants.WebserviceLinks;
 import abish.rulebooksportsgame.AppController;
-import abish.rulebooksportsgame.CricketRankingModel;
-import abish.rulebooksportsgame.CricketScheduleModel;
+import abish.rulebooksportsgame.Models.CricketScheduleModel;
 import abish.rulebooksportsgame.R;
 import abish.rulebooksportsgame.adapter.CricketScheduleAdapter;
 
@@ -137,7 +136,7 @@ public class CricketSchedule extends Fragment {
 
     public void GetResponseString(){
         // Tag used to cancel the request
-        final String tag_json_obj = "string_req";
+        final String tag_json_obj = "string_req_schedule";
 
         String url = WebserviceLinks.cricketSchedule;
 
@@ -241,7 +240,7 @@ public class CricketSchedule extends Fragment {
         cm.setLatitude(latitude);
         cm.setLongitude(longitude);
         cm.setBroadcastingChannel(broadcasting_channel);
-        cm.setLocalTime(local_time);
+        //cm.setLocalTime(local_time);
         cm.setGmtTime(gmt_time);
         cm.setIstTime(ist_time);
         cm.setGameFormat(game_format);

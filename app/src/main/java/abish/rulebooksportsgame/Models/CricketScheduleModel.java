@@ -1,4 +1,4 @@
-package abish.rulebooksportsgame;
+package abish.rulebooksportsgame.Models;
 
 /**
  * Created by helixtech-android on 30/6/16.

@@ -34,7 +34,7 @@ import java.util.List;
 
 import Constants.WebserviceLinks;
 import abish.rulebooksportsgame.AppController;
-import abish.rulebooksportsgame.CricketRankingModel;
+import abish.rulebooksportsgame.Models.CricketRankingModel;
 import abish.rulebooksportsgame.R;
 import abish.rulebooksportsgame.adapter.CricketRankingAdapter;
 

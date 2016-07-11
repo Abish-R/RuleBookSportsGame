@@ -10,14 +10,12 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import Constants.Constant;
-import abish.rulebooksportsgame.CricketRankingModel;
-import abish.rulebooksportsgame.CricketScheduleModel;
+import abish.rulebooksportsgame.Models.CricketScheduleModel;
 import abish.rulebooksportsgame.R;
 
 /**
@@ -65,8 +63,8 @@ public class CricketScheduleAdapter extends RecyclerView.Adapter{
         return items.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView date,teams,format,series,descrip,time,venue;
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public TextView date,teams,format,series,descrip,time_gmt,time_ist,venue;
         //public RelativeLayout rl;
         //public ImageView img;
         public View mCardView;
@@ -78,7 +76,8 @@ public class CricketScheduleAdapter extends RecyclerView.Adapter{
             format = (TextView) view.findViewById(R.id.format);
             series = (TextView) view.findViewById(R.id.series);
             descrip = (TextView) view.findViewById(R.id.descrip);
-            time = (TextView) view.findViewById(R.id.time);
+            time_gmt = (TextView) view.findViewById(R.id.time_gmt);
+            time_ist = (TextView) view.findViewById(R.id.time_ist);
             venue = (TextView) view.findViewById(R.id.venue);
             mCardView = (CardView) view.findViewById(R.id.card);
             //mCardView.setOnClickListener(this);
@@ -93,7 +92,8 @@ public class CricketScheduleAdapter extends RecyclerView.Adapter{
             format.setText(items.get(position).getGameFormat());
             series.setText(items.get(position).getSeriesName());
             descrip.setText(items.get(position).getMatchDescription());
-            time.setText(items.get(position).getLocalTime()+" "+items.get(position).getGmtTime());
+            time_gmt.setText("GMT  : "+items.get(position).getGmtTime());
+            time_ist.setText("IST  : "+items.get(position).getIstTime());
             venue.setText(items.get(position).getVenue());
 
             //holder.img.setImageResource(R.drawable.ic_menu_camera);
@@ -116,6 +116,11 @@ public class CricketScheduleAdapter extends RecyclerView.Adapter{
             anim.setDuration(100);
             anim.setInterpolator(mInterpolator);
             view.startAnimation(anim);
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 }

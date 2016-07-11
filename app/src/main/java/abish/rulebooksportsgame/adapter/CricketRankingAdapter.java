@@ -16,7 +16,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import Constants.Constant;
-import abish.rulebooksportsgame.CricketRankingModel;
+import abish.rulebooksportsgame.Models.CricketRankingModel;
 import abish.rulebooksportsgame.R;
 
 /**
