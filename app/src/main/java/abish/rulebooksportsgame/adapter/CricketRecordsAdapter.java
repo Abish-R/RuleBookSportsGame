@@ -41,27 +41,46 @@ public class CricketRecordsAdapter extends RecyclerView.Adapter{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType==0)
-            return new MyViewHolder1(LayoutInflater.from(parent.getContext()).inflate(R.layout.cricket_records_bestbowling_card, parent, false));
+        if(viewType==1 || viewType==2 || viewType==3)//MyViewHolderHighInngTotTit
+            return new MyViewHolderHighInngTotTit(LayoutInflater.from(parent.getContext()).
+                    inflate(R.layout.cricket_records_high_inng_tot_titlecard, parent, false));
+        else if(viewType==4)
+            return new MyViewHolderHighInngTotVal(LayoutInflater.from(parent.getContext()).
+                    inflate(R.layout.cricket_records_high_inng_tot_valuecard, parent, false));
+//            return new MyViewHolder1(LayoutInflater.from(parent.getContext()).inflate(R.layout.cricket_records_bestbowling_card, parent, false));
+//        else if(viewType==4)
+//            return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cricket_records_bestbowling_titlecard, parent, false));
         else
-            return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cricket_records_bestbowling_titlecard, parent, false));
+            return null;
 
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof MyViewHolder)
+        if (holder instanceof MyViewHolderHighInngTotTit)
             try{
-            ((MyViewHolder)holder).bindViewHolder(position);
+                ((MyViewHolderHighInngTotTit)holder).bindViewHolder(position);
             }catch (Exception e){
-                Log.e(Constant.Tag,e.toString());
+                Log.e(Constant.TAG1,e.toString());
             }
-        else if(holder instanceof MyViewHolder1)
+        else if(holder instanceof MyViewHolderHighInngTotVal)
             try{
-                ((MyViewHolder1)holder).bindViewHolder(position);
+                ((MyViewHolderHighInngTotVal)holder).bindViewHolder(position);
             }catch (Exception e){
-                Log.e(Constant.Tag,e.toString());
+                Log.e(Constant.TAG1,e.toString());
             }
+//        if (holder instanceof MyViewHolder)
+//            try{
+//            ((MyViewHolder)holder).bindViewHolder(position);
+//            }catch (Exception e){
+//                Log.e(Constant.Tag,e.toString());
+//            }
+//        else if(holder instanceof MyViewHolder1)
+//            try{
+//                ((MyViewHolder1)holder).bindViewHolder(position);
+//            }catch (Exception e){
+//                Log.e(Constant.Tag,e.toString());
+//            }
     }
 
     //@Override
@@ -92,6 +111,91 @@ public class CricketRecordsAdapter extends RecyclerView.Adapter{
         return items.size();
     }
 
+    public class MyViewHolderHighInngTotTit extends RecyclerView.ViewHolder{
+        public TextView subtitle,score,teams,ground,last_update_date;
+        public RelativeLayout layout;
+        public View mCardView;
+
+        public MyViewHolderHighInngTotTit(View view) {
+            super(view);
+            subtitle = (TextView) view.findViewById(R.id.subtitle);
+            last_update_date =(TextView)view.findViewById(R.id.last_update_date);
+            score = (TextView) view.findViewById(R.id.score);
+            teams = (TextView) view.findViewById(R.id.teams);
+            ground = (TextView) view.findViewById(R.id.ground);
+            last_update_date = (TextView) view.findViewById(R.id.last_update_date);
+            mCardView = (CardView) view.findViewById(R.id.card);
+            //mCardView.setOnClickListener(this);
+        }
+
+        public void bindViewHolder(int position) {
+            subtitle.setText(items.get(position).getTitle());
+            last_update_date.setText(items.get(position).getLastUpdatedDate());
+            score.setText(items.get(position).getScore());
+            teams.setText(items.get(position).getHomeTeam()+" Vs "+items.get(position).getOppositionTeam());
+            ground.setText("@"+items.get(position).getVenue());
+
+//            setFadeAnimation(mCardView);
+//            animate(mCardView,position);
+            mCardView.setTag(position);
+
+        }
+
+        //protected abstract Animator[] getAnimators(View view);
+
+        private void animate(View view, final int pos) {
+            view.animate().cancel();
+            view.setTranslationY(300);
+            view.setAlpha(0);
+            view.animate().alpha(1.0f).translationY(0).setDuration(300).setStartDelay(100);//pos * 100
+        }
+
+        private void setFadeAnimation(View view) {
+            AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(100);
+            anim.setInterpolator(mInterpolator);
+            view.startAnimation(anim);
+        }
+    }
+
+    public class MyViewHolderHighInngTotVal extends RecyclerView.ViewHolder{
+        public TextView score,teams,ground;
+        public RelativeLayout layout;
+        public View mCardView;
+
+        public MyViewHolderHighInngTotVal(View view) {
+            super(view);
+            score = (TextView) view.findViewById(R.id.score);
+            teams = (TextView) view.findViewById(R.id.teams);
+            ground = (TextView) view.findViewById(R.id.ground);
+            //last_update_date = (TextView) view.findViewById(R.id.last_update_date);
+            layout = (RelativeLayout) view.findViewById(R.id.layout);
+            mCardView = (CardView) view.findViewById(R.id.card);
+            //mCardView.setOnClickListener(this);
+        }
+
+        public void bindViewHolder(int position) {
+            score.setText(items.get(position).getScore());
+            teams.setText(items.get(position).getHomeTeam()+" Vs "+items.get(position).getOppositionTeam());
+            ground.setText("@"+items.get(position).getVenue());
+
+            setFadeAnimation(mCardView);
+            animate(mCardView,position);
+            mCardView.setTag(position);
+
+        }
+        private void setFadeAnimation(View view) {
+            AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(2000);
+            view.startAnimation(anim);
+        }
+        private void animate(View view, final int pos) {
+            view.animate().cancel();
+            view.setTranslationY(300);
+            view.setAlpha(0);
+            view.animate().alpha(1.0f).translationY(0).setDuration(300).setStartDelay(100);//pos * 100
+        }
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView subtitle,name,team1,team2,overs,maidens,runs,wickets,economy,ground_matchdate,last_update_date;

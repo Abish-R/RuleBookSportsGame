@@ -58,6 +58,7 @@ public class CricketRecordsControlAdapter extends RecyclerView.Adapter{
         return adapter_length;
     }
 
+    View lastButton,currentButton;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public Button b1;
@@ -73,6 +74,7 @@ public class CricketRecordsControlAdapter extends RecyclerView.Adapter{
             b1.setTag(Constant.recordsTagName[position]);
             if(b1.getTag().equals(Constant.recordsTagName[0]) && firstButton) {
                 currentButton = b1;
+                lastButton = b1;
                 b1.setBackgroundColor(context.getResources().getColor(R.color.white));
                 obj.callUrlCallMethod(b1.getTag().toString());
                 firstButton=false;
@@ -82,12 +84,11 @@ public class CricketRecordsControlAdapter extends RecyclerView.Adapter{
         @Override
         public void onClick(View v) {
             Toast.makeText(context,v.getTag().toString(),Toast.LENGTH_LONG).show();
-            obj.callUrlCallMethod(v.getTag().toString());
             currentButton= b1;
-            changeButtonColor(currentButton,lastButton);
+            changeButtonColor(lastButton,currentButton);
+            obj.callUrlCallMethod(v.getTag().toString());
             lastButton= b1;
         }
-        View lastButton,currentButton;
 
         private void changeButtonColor(View oldbtn,View newbtn){
             if(oldbtn==newbtn)

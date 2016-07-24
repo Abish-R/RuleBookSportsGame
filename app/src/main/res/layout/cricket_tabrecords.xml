@@ -4,10 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/record_recycler_controller"
-        android:layout_width="match_parent"
-        android:layout_height="35dp" />
     <TextView
         android:id="@+id/title"
         android:textSize="20dp"
@@ -21,6 +17,11 @@
         android:background="@color/grey_light1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/record_recycler_controller"
+        android:layout_width="match_parent"
+        android:layout_height="35dp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/record_recycler"
         android:layout_width="match_parent"

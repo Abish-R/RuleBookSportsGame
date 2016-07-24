@@ -23,6 +23,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainSportsPage"/>
+        <activity android:name=".PayUMoneyActivity"/>
+        <activity android:name=".WebPageLoader"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".CricketActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 

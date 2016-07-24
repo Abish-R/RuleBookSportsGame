@@ -8,4 +8,19 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="mainpage_fontsize">25dp</dimen>
+
+    <dimen name="padding_5dp">5dp</dimen>
+    <dimen name="padding_3dp">3dp</dimen>
+    <dimen name="padding_7dp">7dp</dimen>
+    <dimen name="padding_10dp">10dp</dimen>
+    <dimen name="padding_12dp">12dp</dimen>
+
+    <dimen name="font_subtitle_19dp">19dp</dimen>
+    <dimen name="font_title_22dp">22dp</dimen>
+    <dimen name="font_itemsrow_18dp">18dp</dimen>
+    <dimen name="font_itemsrow_17dp">17dp</dimen>
+    <dimen name="font_itemsrow_16dp">16dp</dimen>
+    <dimen name="font_itemsrow_14dp">14dp</dimen>
+    <dimen name="font_itemsrow_12dp">12dp</dimen>
+
 </resources>
