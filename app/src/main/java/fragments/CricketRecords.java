@@ -186,9 +186,11 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
     @Override
     public void callUrlCallMethod(String param) {
         String url;
-        if(param.equals("best_bowlig_figures_in_match") || param.equals("best_career_bowlig_average") || param.equals("most_wickets_in_career"))
+        if(param.equals("best_bowlig_figures_in_match") || param.equals("best_career_bowlig_average") ||
+                param.equals("most_wickets_in_career") || param.equals("most_dismissals_by_wk_in_career"))
             url=WebserviceLinks.cricketBowlingRecords+param;
-        else if(param.equals("highest_innings_totals") || param.equals("lowest_innings_totals"))
+        else if(param.equals("highest_innings_totals") || param.equals("lowest_innings_totals") ||
+                param.equals("highest_partnership") || param.equals("captaincy_record"))
             url=WebserviceLinks.cricketTeamRecords+param;
         else
             url=WebserviceLinks.cricketBattingRecords+param;
@@ -255,11 +257,11 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
                             setValuesMostWckts(response,1);
                         else if(text.equals("best_career_bowlig_average") && validation==1)
                             setValuesMostWckts(response,2);
-                        else if(text.equals("WK_Dismissals") && validation==1)
+                        else if(text.equals("most_dismissals_by_wk_in_career") && validation==1)
                             setValuesWkDismissal(response);
                         else if(text.equals("highest_partnership") && validation==1)
                             setValuesHighPartnershp(response);
-                        else if(text.equals("Match_Captain") && validation==1)
+                        else if(text.equals("captaincy_record") && validation==1)
                             setValuesMostMatchCaptian(response);
                     }
                 },
@@ -880,31 +882,32 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
         try {
             JSONObject json = new JSONObject(response);
 
-            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
-            for(int j=0;j<4;j++) {
-                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+            String[] jsonArray={"Test","ODI","T20"};
+            for(int j=23;j<26;j++) {
+                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j-23]);
                 //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
                 for (int i = 0; i < arrayTestTeam.length(); i++) {
                     int unique=0;String title="";
                     if(i==0) {
-                        unique = j + 1;
-                        title=jsonArray[j];
-                    }
+                        unique = j;
+                        title=jsonArray[j-23];
+                    }else
+                        unique = 26;
                     String titleSet = title;
                     String player = arrayTestTeam.getJSONObject(i).getString("player_name");
                     String country = arrayTestTeam.getJSONObject(i).getString("country");
-                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
-                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
-                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
-                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
-                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
-                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
-                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
-                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
+                    String span = arrayTestTeam.getJSONObject(i).getString("span");
+                    String matches = arrayTestTeam.getJSONObject(i).getString("matches");
+                    String innings = arrayTestTeam.getJSONObject(i).getString("innings");
+                    String dismissals = arrayTestTeam.getJSONObject(i).getString("dismissals");
+                    String catches = arrayTestTeam.getJSONObject(i).getString("catches");
+                    String stumbings = arrayTestTeam.getJSONObject(i).getString("stumbing_made");
+                    String max_inng_dismissals = arrayTestTeam.getJSONObject(i).getString("maximum_innings_dismissals");
+                    String average_dismissal = arrayTestTeam.getJSONObject(i).getString("dismissals_per_innings");
                     String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
                     //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                    setValueInModelCallAdapterWkDismissal(unique,title, player, country, oppostition, overs,maidens,runs,
-                            wickets,economy,ground,match_date, last_updated_date);
+                    setValueInModelCallAdapterWkDismissal(unique,title, player, country, span, matches,innings,dismissals,
+                            catches,stumbings,max_inng_dismissals,average_dismissal, last_updated_date);
                 }
             }
 
@@ -915,17 +918,17 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
         record_recycler.setAdapter(adapter);
     }
 
-    private void setValueInModelCallAdapterWkDismissal(int unique,String tit,String player,String country,String oppostition,String overs,
-                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
+    private void setValueInModelCallAdapterWkDismissal(int unique,String tit,String player,String country,String span,String match,
+                        String inng,String dismsl,String ctch,String stumb,String max_inng_dsmsl,String avg,String last_updated_date){
 
         CricketRecordsModel cm = new CricketRecordsModel();
 
-        cm.setUnique(unique);                  cm.setTitle(tit);
-        cm.setPlayer(player);                   cm.setHomeTeam(country);
-        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
-        cm.setMaidens(maidens);                 cm.setRuns(runs);
-        cm.setWickets(wickets);                 cm.setEconomy(economy);
-        cm.setVenue(ground);                    cm.setMatchDate(match_date);
+        cm.setUnique(unique);                       cm.setTitle(tit);
+        cm.setPlayer(player);                       cm.setHomeTeam(country);
+        cm.setSpan(span);                           cm.setNoOfMatches(match);
+        cm.setNoOfInnings(inng);                    cm.setWickets(dismsl);
+        cm.setCatches(ctch);                        cm.setStumbings(stumb);
+        cm.setMaxDismissalInMatch(max_inng_dsmsl);  cm.setAverage(avg);
         cm.setLastUpdatedDate(last_updated_date);
         list.add(cm);
     }
@@ -935,31 +938,29 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
         try {
             JSONObject json = new JSONObject(response);
 
-            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
-            for(int j=0;j<4;j++) {
-                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+            String[] jsonArray={"Test","ODI","T20"};
+            for(int j=27;j<30;j++) {
+                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j-27]);
                 //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
                 for (int i = 0; i < arrayTestTeam.length(); i++) {
                     int unique=0;String title="";
                     if(i==0) {
-                        unique = j + 1;
-                        title=jsonArray[j];
-                    }
+                        unique = j;
+                        title=jsonArray[j-27];
+                    }else
+                        unique = 30;
                     String titleSet = title;
-                    String player = arrayTestTeam.getJSONObject(i).getString("player_name");
-                    String country = arrayTestTeam.getJSONObject(i).getString("country");
-                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
-                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
-                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
+                    String player = arrayTestTeam.getJSONObject(i).getString("partners");
+                    String country = arrayTestTeam.getJSONObject(i).getString("team");
+                    String oppostition = arrayTestTeam.getJSONObject(i).getString("opposition");
                     String runs = arrayTestTeam.getJSONObject(i).getString("runs");
-                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
-                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
-                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
+                    String wicket = arrayTestTeam.getJSONObject(i).getString("wicket");
+                    String ground = arrayTestTeam.getJSONObject(i).getString("ground");
                     String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
                     String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
                     //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                    setValueInModelCallAdapterHighPartnershp(unique,title, player, country, oppostition, overs,maidens,runs,
-                            wickets,economy,ground,match_date, last_updated_date);
+                    setValueInModelCallAdapterHighPartnershp(unique,title, player, country, oppostition, runs,
+                            wicket,ground,match_date, last_updated_date);
                 }
             }
 
@@ -970,18 +971,16 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
         record_recycler.setAdapter(adapter);
     }
 
-    private void setValueInModelCallAdapterHighPartnershp(int unique,String tit,String player,String country,String oppostition,String overs,
-                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
+    private void setValueInModelCallAdapterHighPartnershp(int unique,String tit,String player,String country,String oppostition,
+                                            String runs,String wicket,String ground,String match_date,String last_updated_date){
 
         CricketRecordsModel cm = new CricketRecordsModel();
 
-        cm.setUnique(unique);                  cm.setTitle(tit);
+        cm.setUnique(unique);                   cm.setTitle(tit);
         cm.setPlayer(player);                   cm.setHomeTeam(country);
-        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
-        cm.setMaidens(maidens);                 cm.setRuns(runs);
-        cm.setWickets(wickets);                 cm.setEconomy(economy);
-        cm.setVenue(ground);                    cm.setMatchDate(match_date);
-        cm.setLastUpdatedDate(last_updated_date);
+        cm.setOppositionTeam(oppostition);      cm.setRuns(runs);
+        cm.setWickets(wicket);                  cm.setVenue(ground);
+        cm.setMatchDate(match_date);            cm.setLastUpdatedDate(last_updated_date);
         list.add(cm);
     }
 
@@ -990,31 +989,33 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
         try {
             JSONObject json = new JSONObject(response);
 
-            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
-            for(int j=0;j<4;j++) {
-                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+            String[] jsonArray={"Test","ODI","T20"};
+            for(int j=31;j<34;j++) {
+                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j-31]);
                 //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
                 for (int i = 0; i < arrayTestTeam.length(); i++) {
                     int unique=0;String title="";
                     if(i==0) {
-                        unique = j + 1;
-                        title=jsonArray[j];
-                    }
+                        unique = j;
+                        title=jsonArray[j-31];
+                    }else
+                        unique = 34;
                     String titleSet = title;
                     String player = arrayTestTeam.getJSONObject(i).getString("player_name");
                     String country = arrayTestTeam.getJSONObject(i).getString("country");
-                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
-                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
-                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
-                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
-                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
-                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
-                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
-                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
+                    String span = arrayTestTeam.getJSONObject(i).getString("span");
+                    String matches = arrayTestTeam.getJSONObject(i).getString("matches");
+                    String won = arrayTestTeam.getJSONObject(i).getString("won");
+                    String lost = arrayTestTeam.getJSONObject(i).getString("lost");
+                    String tied = arrayTestTeam.getJSONObject(i).getString("tied");
+                    String drawn = arrayTestTeam.getJSONObject(i).getString("drawn");
+                    String win_loss_ratio = arrayTestTeam.getJSONObject(i).getString("win_loss_ratio");
+                    String win_percentage = arrayTestTeam.getJSONObject(i).getString("win_percentage");
+
                     String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
                     //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                    setValueInModelCallAdapterMostMatchCaptian(unique,title, player, country, oppostition, overs,maidens,runs,
-                            wickets,economy,ground,match_date, last_updated_date);
+                    setValueInModelCallAdapterMostMatchCaptian(unique,title, player, country, span, matches,won,
+                            lost,tied,drawn,win_loss_ratio,win_percentage,last_updated_date);
                 }
             }
 
@@ -1025,22 +1026,18 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
         record_recycler.setAdapter(adapter);
     }
 
-    private void setValueInModelCallAdapterMostMatchCaptian(int unique,String tit,String player,String country,String oppostition,String overs,
-                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
+    private void setValueInModelCallAdapterMostMatchCaptian(int unique,String tit,String player,String country,String span,String matches,
+                          String won,String lost,String tie,String drawn,String win_loss_ratio,String win_percent,String last_updated_date){
 
         CricketRecordsModel cm = new CricketRecordsModel();
 
-        cm.setUnique(unique);                  cm.setTitle(tit);
+        cm.setUnique(unique);                   cm.setTitle(tit);
         cm.setPlayer(player);                   cm.setHomeTeam(country);
-        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
-        cm.setMaidens(maidens);                 cm.setRuns(runs);
-        cm.setWickets(wickets);                 cm.setEconomy(economy);
-        cm.setVenue(ground);                    cm.setMatchDate(match_date);
+        cm.setSpan(span);                       cm.setNoOfMatches(matches);
+        cm.setNoOfMatchWon(won);                cm.setNoOfMatchLost(lost);
+        cm.setNoOfMatchDrawn(drawn);            cm.setWinPercent(win_percent);
         cm.setLastUpdatedDate(last_updated_date);
         list.add(cm);
     }
-
-
-
 
 }

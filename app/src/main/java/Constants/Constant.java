@@ -12,7 +12,7 @@ public class Constant {
     "WK Most Dismissals","Highest Partnership","Most Match as Captain"};
     public static String[] recordsTagName={"highest_innings_totals","lowest_innings_totals","most_runs_in_match",
             "most_runs_in_career", "highest_average_in_career","most_hundreds_in_career","Most_Fifty","best_bowlig_figures_in_match",
-            "most_wickets_in_career","best_career_bowlig_average","WK_Dismissals", "highest_partnership","Match_Captain"};
+            "most_wickets_in_career","best_career_bowlig_average","most_dismissals_by_wk_in_career", "highest_partnership","captaincy_record"};
 
     public static String TAG="JSON Request Records";
     public static String TAG1="Cricket Records Adapter Binding Exception";

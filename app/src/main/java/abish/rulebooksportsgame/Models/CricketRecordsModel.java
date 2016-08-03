@@ -7,7 +7,8 @@ public class CricketRecordsModel {
     int unique;
     String title,rank,player,home_team,opposition_team,overs,maidens,runs,wickets,economy,match_date,venue,score,run_rate,innings,
             game_format,gender,last_updated_date,balls,no_matches,span,no_innings,high_score,average,ton,fifty,best_bowled_match,
-            best_bowled_innings,strike_rate,five_wic,ten_wic;
+            best_bowled_innings,strike_rate,five_wic,ten_wic,catches,max_dismissal_in_match,stumbings,win_percent,no_of_match_won,
+            no_of_match_lost,no_of_match_drawn;
 
     public CricketRecordsModel(){}
 
@@ -108,6 +109,27 @@ public class CricketRecordsModel {
     public String getTenWickets(){
         return ten_wic;
     }
+    public String getCatches(){
+        return catches;
+    }
+    public String getMaxDismissalInMatch(){
+        return max_dismissal_in_match;
+    }
+    public String getStumbings(){
+        return stumbings;
+    }
+    public String getWinPercent(){
+        return win_percent;
+    }
+    public String getNoOfMatchWon(){
+        return no_of_match_won;
+    }
+    public String getNoOfMatchLost(){
+        return no_of_match_lost;
+    }
+    public String getNoOfMatchDrawn(){
+        return no_of_match_drawn;
+    }
 
     public void setUnique(int val){
         this.unique=val;
@@ -198,9 +220,32 @@ public class CricketRecordsModel {
     }
     public void setStrikeRate(String val){
         this.strike_rate=val;
-    }public void setFiveWickets(String val){
+    }
+    public void setFiveWickets(String val){
         this.five_wic=val;
-    }public void setTenWickets(String val){
+    }
+    public void setTenWickets(String val){
         this.ten_wic=val;
+    }
+    public void setCatches(String val){
+        this.catches=val;
+    }
+    public void setMaxDismissalInMatch(String val){
+        this.max_dismissal_in_match=val;
+    }
+    public void setStumbings(String val){
+        this.stumbings=val;
+    }
+    public void setWinPercent(String val){
+        this.win_percent=val;
+    }
+    public void setNoOfMatchWon(String val){
+        this.no_of_match_won=val;
+    }
+    public void setNoOfMatchLost(String val){
+        this.no_of_match_lost=val;
+    }
+    public void setNoOfMatchDrawn(String val){
+        this.no_of_match_drawn=val;
     }
 }

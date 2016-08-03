@@ -71,8 +71,26 @@ public class CricketRecordsAdapter extends RecyclerView.Adapter{
         else if(viewType==22)
             return new MyViewHolderMostWicketsVal(LayoutInflater.from(parent.getContext()).
                     inflate(R.layout.cricket_records_most_wckt_in_career_valcard, parent, false));
+        else if(viewType==23 || viewType==24 || viewType==25)
+            return new MyViewHolderMostDismissalWKTit(LayoutInflater.from(parent.getContext()).
+                    inflate(R.layout.cricket_records_wk_dismissal_titcard, parent, false));
+        else if(viewType==26)
+            return new MyViewHolderMostDismissalWKVal(LayoutInflater.from(parent.getContext()).
+                    inflate(R.layout.cricket_records_wk_dismissal_valcard, parent, false));
+        else if(viewType==27 || viewType==28 || viewType==29)
+            return new MyViewHolderPartnershipTit(LayoutInflater.from(parent.getContext()).
+                    inflate(R.layout.cricket_records_partnership_titcard, parent, false));
+        else if(viewType==30)
+            return new MyViewHolderPartnershipVal(LayoutInflater.from(parent.getContext()).
+                    inflate(R.layout.cricket_records_partnership_valcard, parent, false));
+        else if(viewType==31 || viewType==32 || viewType==33)
+            return new MyViewHolderCaptainRecordTit(LayoutInflater.from(parent.getContext()).
+                    inflate(R.layout.cricket_records_captain_titcard, parent, false));
+        else if(viewType==34)
+            return new MyViewHolderCaptainRecordVal(LayoutInflater.from(parent.getContext()).
+                    inflate(R.layout.cricket_records_captain_valcard, parent, false));
         else
-            return null;//MostWickets
+            return null;//
 
     }
 
@@ -137,7 +155,43 @@ public class CricketRecordsAdapter extends RecyclerView.Adapter{
                 ((MyViewHolderMostWicketsVal) holder).bindViewHolder(position);
             } catch (Exception e) {
                 Log.e(Constant.TAG1, e.toString());
-            }//MostWickets
+            }
+        else if (holder instanceof MyViewHolderMostDismissalWKTit)
+            try {
+                ((MyViewHolderMostDismissalWKTit) holder).bindViewHolder(position);
+            } catch (Exception e) {
+                Log.e(Constant.TAG1, e.toString());
+            }
+        else if (holder instanceof MyViewHolderMostDismissalWKVal)
+            try {
+                ((MyViewHolderMostDismissalWKVal) holder).bindViewHolder(position);
+            } catch (Exception e) {
+                Log.e(Constant.TAG1, e.toString());
+            }
+        else if (holder instanceof MyViewHolderPartnershipTit)
+            try {
+                ((MyViewHolderPartnershipTit) holder).bindViewHolder(position);
+            } catch (Exception e) {
+                Log.e(Constant.TAG1, e.toString());
+            }
+        else if (holder instanceof MyViewHolderPartnershipVal)
+            try {
+                ((MyViewHolderPartnershipVal) holder).bindViewHolder(position);
+            } catch (Exception e) {
+                Log.e(Constant.TAG1, e.toString());
+            }
+        else if (holder instanceof MyViewHolderCaptainRecordTit)
+            try {
+                ((MyViewHolderCaptainRecordTit) holder).bindViewHolder(position);
+            } catch (Exception e) {
+                Log.e(Constant.TAG1, e.toString());
+            }
+        else if (holder instanceof MyViewHolderCaptainRecordVal)
+            try {
+                ((MyViewHolderCaptainRecordVal) holder).bindViewHolder(position);
+            } catch (Exception e) {
+                Log.e(Constant.TAG1, e.toString());
+            }
     }
 
 
@@ -654,6 +708,314 @@ public class CricketRecordsAdapter extends RecyclerView.Adapter{
             //strike_rate.setText(items.get(position).getStrikeRate());
             five_ten_wickets.setText(items.get(position).getFiveWickets()+"/"+items.get(position).getTenWickets());
             balls_runs.setText(items.get(position).getBalls()+"/"+items.get(position).getRuns());
+
+            setFadeAnimation(mCardView);
+            animate(mCardView,position);
+            mCardView.setTag(position);
+
+        }
+        private void setFadeAnimation(View view) {
+            AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(2000);
+            view.startAnimation(anim);
+        }
+        private void animate(View view, final int pos) {
+            view.animate().cancel();
+            view.setTranslationY(300);
+            view.setAlpha(0);
+            view.animate().alpha(1.0f).translationY(0).setDuration(300).setStartDelay(100);//pos * 100
+        }
+    }
+    public class MyViewHolderMostDismissalWKTit extends RecyclerView.ViewHolder{
+        public TextView subtitle,dismissal,name,team,span,matches,innings,cat_stumps,average,//strike_rate,
+                max,last_update_date;
+        public RelativeLayout layout;
+        public View mCardView;
+
+        public MyViewHolderMostDismissalWKTit(View view) {
+            super(view);
+            subtitle = (TextView) view.findViewById(R.id.subtitle);
+            dismissal = (TextView) view.findViewById(R.id.dismissal);
+            name = (TextView) view.findViewById(R.id.name);
+            team = (TextView) view.findViewById(R.id.team);
+            span = (TextView) view.findViewById(R.id.span);
+            matches = (TextView) view.findViewById(R.id.matches);
+            innings = (TextView) view.findViewById(R.id.innings);
+            cat_stumps = (TextView) view.findViewById(R.id.cat_stumps);
+            average = (TextView) view.findViewById(R.id.average);
+            //strike_rate = (TextView) view.findViewById(R.id.strike_rate);
+            max = (TextView) view.findViewById(R.id.max);
+            last_update_date = (TextView) view.findViewById(R.id.last_update_date);
+            layout = (RelativeLayout) view.findViewById(R.id.layout);
+            mCardView = (CardView) view.findViewById(R.id.card);
+            //mCardView.setOnClickListener(this);
+        }
+
+        public void bindViewHolder(int position) {
+            subtitle.setText(items.get(position).getTitle());
+            last_update_date.setText(items.get(position).getLastUpdatedDate());
+            dismissal.setText(items.get(position).getWickets());
+            name.setText(items.get(position).getPlayer());
+            team.setText(items.get(position).getHomeTeam());
+            span.setText(items.get(position).getSpan());
+            matches.setText(items.get(position).getNoOfMatches());
+            innings.setText(items.get(position).getNoOfInnings());
+            cat_stumps.setText(items.get(position).getCatches()+","+items.get(position).getStumbings());
+            average.setText(items.get(position).getAverage());
+            //strike_rate.setText(items.get(position).getStrikeRate());
+            max.setText(items.get(position).getMaxDismissalInMatch());
+
+//            setFadeAnimation(mCardView);
+//            animate(mCardView,position);
+            mCardView.setTag(position);
+
+        }
+
+        //protected abstract Animator[] getAnimators(View view);
+
+        private void animate(View view, final int pos) {
+            view.animate().cancel();
+            view.setTranslationY(300);
+            view.setAlpha(0);
+            view.animate().alpha(1.0f).translationY(0).setDuration(300).setStartDelay(100);//pos * 100
+        }
+
+        private void setFadeAnimation(View view) {
+            AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(100);
+            anim.setInterpolator(mInterpolator);
+            view.startAnimation(anim);
+        }
+    }
+
+    public class MyViewHolderMostDismissalWKVal extends RecyclerView.ViewHolder{
+        public TextView subtitle,dismissal,name,team,span,matches,innings,cat_stumps,average,max;
+        public RelativeLayout layout;
+        public View mCardView;
+
+        public MyViewHolderMostDismissalWKVal(View view) {
+            super(view);
+            dismissal = (TextView) view.findViewById(R.id.dismissal);
+            name = (TextView) view.findViewById(R.id.name);
+            team = (TextView) view.findViewById(R.id.team);
+            span = (TextView) view.findViewById(R.id.span);
+            matches = (TextView) view.findViewById(R.id.matches);
+            innings = (TextView) view.findViewById(R.id.innings);
+            cat_stumps = (TextView) view.findViewById(R.id.cat_stumps);
+            average = (TextView) view.findViewById(R.id.average);
+            //strike_rate = (TextView) view.findViewById(R.id.strike_rate);
+            max = (TextView) view.findViewById(R.id.max);
+            //last_update_date = (TextView) view.findViewById(R.id.last_update_date);
+            layout = (RelativeLayout) view.findViewById(R.id.layout);
+            mCardView = (CardView) view.findViewById(R.id.card);
+            //mCardView.setOnClickListener(this);
+        }
+
+        public void bindViewHolder(int position) {
+            dismissal.setText(items.get(position).getWickets());
+            name.setText(items.get(position).getPlayer());
+            team.setText(items.get(position).getHomeTeam());
+            span.setText(items.get(position).getSpan());
+            matches.setText(items.get(position).getNoOfMatches());
+            innings.setText(items.get(position).getNoOfInnings());
+            cat_stumps.setText(items.get(position).getCatches()+","+items.get(position).getStumbings());
+            average.setText(items.get(position).getAverage());
+            //strike_rate.setText(items.get(position).getStrikeRate());
+            max.setText(items.get(position).getMaxDismissalInMatch());
+
+            setFadeAnimation(mCardView);
+            animate(mCardView,position);
+            mCardView.setTag(position);
+
+        }
+        private void setFadeAnimation(View view) {
+            AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(2000);
+            view.startAnimation(anim);
+        }
+        private void animate(View view, final int pos) {
+            view.animate().cancel();
+            view.setTranslationY(300);
+            view.setAlpha(0);
+            view.animate().alpha(1.0f).translationY(0).setDuration(300).setStartDelay(100);//pos * 100
+        }
+    }
+
+    public class MyViewHolderPartnershipTit extends RecyclerView.ViewHolder{
+        public TextView subtitle,runs,name,team,opponent,in_wicket,ground,match_date,last_update_date;
+        public RelativeLayout layout;
+        public View mCardView;
+
+        public MyViewHolderPartnershipTit(View view) {
+            super(view);
+            subtitle = (TextView) view.findViewById(R.id.subtitle);
+            runs = (TextView) view.findViewById(R.id.runs);
+            name = (TextView) view.findViewById(R.id.name);
+            team = (TextView) view.findViewById(R.id.team);
+            opponent = (TextView) view.findViewById(R.id.opponent);
+            in_wicket = (TextView) view.findViewById(R.id.in_wicket);
+            ground = (TextView) view.findViewById(R.id.ground);
+            match_date = (TextView) view.findViewById(R.id.match_date);
+            last_update_date = (TextView) view.findViewById(R.id.last_update_date);
+            layout = (RelativeLayout) view.findViewById(R.id.layout);
+            mCardView = (CardView) view.findViewById(R.id.card);
+            //mCardView.setOnClickListener(this);
+        }
+
+        public void bindViewHolder(int position) {
+            subtitle.setText(items.get(position).getTitle());
+            last_update_date.setText(items.get(position).getLastUpdatedDate());
+            runs.setText(items.get(position).getWickets());
+            name.setText(items.get(position).getPlayer());
+            team.setText(items.get(position).getHomeTeam());
+            opponent.setText(items.get(position).getOppositionTeam());
+            in_wicket.setText(items.get(position).getWickets()+"Wic");
+            ground.setText(items.get(position).getVenue());
+            match_date.setText(items.get(position).getMatchDate());
+
+//            setFadeAnimation(mCardView);
+//            animate(mCardView,position);
+            mCardView.setTag(position);
+
+        }
+
+        //protected abstract Animator[] getAnimators(View view);
+
+        private void animate(View view, final int pos) {
+            view.animate().cancel();
+            view.setTranslationY(300);
+            view.setAlpha(0);
+            view.animate().alpha(1.0f).translationY(0).setDuration(300).setStartDelay(100);//pos * 100
+        }
+
+        private void setFadeAnimation(View view) {
+            AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(100);
+            anim.setInterpolator(mInterpolator);
+            view.startAnimation(anim);
+        }
+    }
+
+    public class MyViewHolderPartnershipVal extends RecyclerView.ViewHolder{
+        public TextView runs,name,team,opponent,in_wicket,ground,match_date;
+        public RelativeLayout layout;
+        public View mCardView;
+
+        public MyViewHolderPartnershipVal(View view) {
+            super(view);
+            runs = (TextView) view.findViewById(R.id.runs);
+            name = (TextView) view.findViewById(R.id.name);
+            team = (TextView) view.findViewById(R.id.team);
+            opponent = (TextView) view.findViewById(R.id.opponent);
+            in_wicket = (TextView) view.findViewById(R.id.in_wicket);
+            ground = (TextView) view.findViewById(R.id.ground);
+            match_date = (TextView) view.findViewById(R.id.match_date);
+            layout = (RelativeLayout) view.findViewById(R.id.layout);
+            mCardView = (CardView) view.findViewById(R.id.card);
+            //mCardView.setOnClickListener(this);
+        }
+
+        public void bindViewHolder(int position) {
+            runs.setText(items.get(position).getWickets());
+            name.setText(items.get(position).getPlayer());
+            team.setText(items.get(position).getHomeTeam());
+            opponent.setText(items.get(position).getOppositionTeam());
+            in_wicket.setText(items.get(position).getWickets()+"Wic");
+            ground.setText(items.get(position).getVenue());
+            match_date.setText(items.get(position).getMatchDate());
+
+            setFadeAnimation(mCardView);
+            animate(mCardView,position);
+            mCardView.setTag(position);
+
+        }
+        private void setFadeAnimation(View view) {
+            AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(2000);
+            view.startAnimation(anim);
+        }
+        private void animate(View view, final int pos) {
+            view.animate().cancel();
+            view.setTranslationY(300);
+            view.setAlpha(0);
+            view.animate().alpha(1.0f).translationY(0).setDuration(300).setStartDelay(100);//pos * 100
+        }
+    }
+
+    public class MyViewHolderCaptainRecordTit extends RecyclerView.ViewHolder{
+        public TextView subtitle,name,team,span,mat_win_loss_winpercent,last_update_date;
+        public RelativeLayout layout;
+        public View mCardView;
+
+        public MyViewHolderCaptainRecordTit(View view) {
+            super(view);
+            subtitle = (TextView) view.findViewById(R.id.subtitle);
+            name = (TextView) view.findViewById(R.id.name);
+            team = (TextView) view.findViewById(R.id.team);
+            span = (TextView) view.findViewById(R.id.span);
+            mat_win_loss_winpercent = (TextView) view.findViewById(R.id.mat_win_loss_winpercent);
+            last_update_date = (TextView) view.findViewById(R.id.last_update_date);
+            layout = (RelativeLayout) view.findViewById(R.id.layout);
+            mCardView = (CardView) view.findViewById(R.id.card);
+            //mCardView.setOnClickListener(this);
+        }
+
+        public void bindViewHolder(int position) {
+            subtitle.setText(items.get(position).getTitle());
+            last_update_date.setText(items.get(position).getLastUpdatedDate());
+            name.setText(items.get(position).getPlayer());
+            team.setText(items.get(position).getHomeTeam());
+            span.setText(items.get(position).getSpan());
+            mat_win_loss_winpercent.setText(items.get(position).getNoOfMatches()+"/"+
+                    items.get(position).getNoOfMatchWon()+"/"+items.get(position).getNoOfMatchLost()+"/"+
+                    items.get(position).getWinPercent());
+
+//            setFadeAnimation(mCardView);
+//            animate(mCardView,position);
+            mCardView.setTag(position);
+
+        }
+
+        //protected abstract Animator[] getAnimators(View view);
+
+        private void animate(View view, final int pos) {
+            view.animate().cancel();
+            view.setTranslationY(300);
+            view.setAlpha(0);
+            view.animate().alpha(1.0f).translationY(0).setDuration(300).setStartDelay(100);//pos * 100
+        }
+
+        private void setFadeAnimation(View view) {
+            AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(100);
+            anim.setInterpolator(mInterpolator);
+            view.startAnimation(anim);
+        }
+    }
+
+    public class MyViewHolderCaptainRecordVal extends RecyclerView.ViewHolder{
+        public TextView name,team,span,mat_win_loss_winpercent;
+        public RelativeLayout layout;
+        public View mCardView;
+
+        public MyViewHolderCaptainRecordVal(View view) {
+            super(view);
+            name = (TextView) view.findViewById(R.id.name);
+            team = (TextView) view.findViewById(R.id.team);
+            span = (TextView) view.findViewById(R.id.span);
+            mat_win_loss_winpercent = (TextView) view.findViewById(R.id.mat_win_loss_winpercent);
+            layout = (RelativeLayout) view.findViewById(R.id.layout);
+            mCardView = (CardView) view.findViewById(R.id.card);
+            //mCardView.setOnClickListener(this);
+        }
+
+        public void bindViewHolder(int position) {
+            name.setText(items.get(position).getPlayer());
+            team.setText(items.get(position).getHomeTeam());
+            span.setText(items.get(position).getSpan());
+            mat_win_loss_winpercent.setText(items.get(position).getNoOfMatches()+"/"+
+                    items.get(position).getNoOfMatchWon()+"/"+items.get(position).getNoOfMatchLost()+"/"+
+                    items.get(position).getWinPercent());
 
             setFadeAnimation(mCardView);
             animate(mCardView,position);
