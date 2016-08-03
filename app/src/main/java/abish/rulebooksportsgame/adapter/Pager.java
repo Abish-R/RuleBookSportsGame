@@ -62,6 +62,8 @@ public class Pager extends FragmentStatePagerAdapter {
                 return "ICC Ranks";
             case 3:
                 return "World Records";
+            case 4:
+                return "Fixtures";
         }
         return null;
     }

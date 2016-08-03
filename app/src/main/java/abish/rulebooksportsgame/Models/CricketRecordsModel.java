@@ -6,7 +6,8 @@ package abish.rulebooksportsgame.Models;
 public class CricketRecordsModel {
     int unique;
     String title,rank,player,home_team,opposition_team,overs,maidens,runs,wickets,economy,match_date,venue,score,run_rate,innings,
-            game_format,gender,last_updated_date;
+            game_format,gender,last_updated_date,balls,no_matches,span,no_innings,high_score,average,ton,fifty,best_bowled_match,
+            best_bowled_innings,strike_rate,five_wic,ten_wic;
 
     public CricketRecordsModel(){}
 
@@ -68,6 +69,45 @@ public class CricketRecordsModel {
     public String getLastUpdatedDate(){
         return last_updated_date;
     }
+    public String getBalls(){
+        return balls;
+    }
+    public String getNoOfMatches(){
+        return no_matches;
+    }
+    public String getSpan(){
+        return span;
+    }
+    public String getNoOfInnings(){
+        return no_innings;
+    }
+    public String getHighScore(){
+        return high_score;
+    }
+    public String getAverage(){
+        return average;
+    }
+    public String getNoOfTons(){
+        return ton;
+    }
+    public String getNoOfFifties(){
+        return fifty;
+    }
+    public String getBestBowledInMatch(){
+        return best_bowled_match;
+    }
+    public String getBestBowledInInngs(){
+        return best_bowled_innings;
+    }
+    public String getStrikeRate(){
+        return strike_rate;
+    }
+    public String getFiveWickets(){
+        return five_wic;
+    }
+    public String getTenWickets(){
+        return ten_wic;
+    }
 
     public void setUnique(int val){
         this.unique=val;
@@ -126,5 +166,41 @@ public class CricketRecordsModel {
     public void setLastUpdatedDate(String val){
         this.last_updated_date=val;
     }
-
+    public void setBalls(String val){
+        this.balls=val;
+    }
+    public void setNoOfMatches(String val){
+        this.no_matches=val;
+    }
+    public void setSpan(String val){
+        this.span=val;
+    }
+    public void setNoOfInnings(String val){
+        this.no_innings=val;
+    }
+    public void setHighScore(String val){
+        this.high_score=val;
+    }
+    public void setAverage(String val){
+        this.average=val;
+    }
+    public void setTons(String val){
+        this.ton=val;
+    }
+    public void setFifties(String val){
+        this.fifty=val;
+    }
+    public void setBestBowledInMatch(String val){
+        this.best_bowled_match=val;
+    }
+    public void setBestBowledInInngs(String val){
+        this.best_bowled_innings=val;
+    }
+    public void setStrikeRate(String val){
+        this.strike_rate=val;
+    }public void setFiveWickets(String val){
+        this.five_wic=val;
+    }public void setTenWickets(String val){
+        this.ten_wic=val;
+    }
 }

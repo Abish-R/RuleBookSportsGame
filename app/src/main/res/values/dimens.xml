@@ -20,7 +20,9 @@
     <dimen name="font_itemsrow_18dp">18dp</dimen>
     <dimen name="font_itemsrow_17dp">17dp</dimen>
     <dimen name="font_itemsrow_16dp">16dp</dimen>
+    <dimen name="font_itemsrow_15dp">15dp</dimen>
     <dimen name="font_itemsrow_14dp">14dp</dimen>
+    <dimen name="font_itemsrow_13dp">13dp</dimen>
     <dimen name="font_itemsrow_12dp">12dp</dimen>
 
 </resources>

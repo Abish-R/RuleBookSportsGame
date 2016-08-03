@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -51,12 +53,30 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
     private String mParam1;
     private String mParam2;
 
+    private final Runnable SCROLLING_RUNNABLE = new Runnable() {
+
+        @Override
+        public void run() {
+            final int duration = 10;
+            final int pixelsToMove = 10;
+            record_recycler_controller.smoothScrollBy(pixelsToMove, 0);
+            mHandler.postDelayed(this, duration);
+        }
+    };
+
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private boolean foundTotalPixel = true;
+    private int pastVisiblesItems, visibleItemCount, totalItemCount;
+    private int totalMovedPixel;
+    private int totalPixel;
+
     FragmentTabHost mTabHost;
     View view;
     Context context;
-    RecyclerView record_recycler_controller,record_recycler;
+    RecyclerView record_recycler_controller,record_recycler_controller1,record_recycler;
     String calledfrom;
     List<CricketRecordsModel> list;
+    CricketRecordsControlAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -92,12 +112,62 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.cricket_tabrecords, container, false);
         record_recycler_controller = (RecyclerView) view.findViewById(R.id.record_recycler_controller);
+        record_recycler_controller1 = (RecyclerView) view.findViewById(R.id.record_recycler_controller1);
+        //record_recycler_controller.setSelected(true);
         record_recycler = (RecyclerView) view.findViewById(R.id.record_recycler);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         record_recycler_controller.setLayoutManager(layoutManager);
         record_recycler_controller.setItemAnimator(new DefaultItemAnimator());
+
+        final RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        record_recycler_controller1.setLayoutManager(layoutManager1);
+        record_recycler_controller1.setItemAnimator(new DefaultItemAnimator());
         setRecordsController();
+
+
+        /*record_recycler_controller.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                totalMovedPixel = totalMovedPixel + dx;
+                visibleItemCount = layoutManager.getChildCount();
+                totalItemCount = layoutManager.getItemCount();
+                pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+                if (foundTotalPixel) {
+                    if (totalItemCount > 2) {
+                        View headerView = layoutManager.getChildAt(0);
+                        View itemView = layoutManager.getChildAt(1);
+
+                        if (itemView != null && headerView != null) {
+                        *//*total visible scrolling part is total pixel's of total item's count and header view*//*
+                            totalPixel = *//*-c.getTop() +*//* ((totalItemCount - 2) * itemView.getWidth()) + (1 * headerView.getWidth());
+                            Log.v("...", "Total pixel x!" + totalPixel);
+                            foundTotalPixel = false;
+                        }
+                    }
+                }
+
+                //if (loading) {
+                //if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                if (!foundTotalPixel && totalMovedPixel >= totalPixel) {
+                    // loading = false;
+                    Log.v("...", "Last Item Wow !");
+                    Log.v("...", "totalMovedPixel !" + totalMovedPixel);
+
+                    // use this to turn auto-scrolling off:
+                    //mHandler.removeCallbacks(SCROLLING_RUNNABLE);
+                    record_recycler_controller.setAdapter(null);
+                    record_recycler_controller.setAdapter(adapter);
+                    pastVisiblesItems = visibleItemCount = totalItemCount = 0;
+                    totalMovedPixel = 0;
+
+                }
+            }
+            // }
+        });
+        // use this to turn auto-scrolling on:
+        mHandler.post(SCROLLING_RUNNABLE);*/
+
 
 
         return view;
@@ -133,8 +203,9 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
     }
 
     private void setRecordsController(){
-        CricketRecordsControlAdapter adapter = new CricketRecordsControlAdapter(getActivity(),this,Constant.recordsName.length);
+        adapter = new CricketRecordsControlAdapter(getActivity(),this,Constant.recordsName.length);
         record_recycler_controller.setAdapter(adapter);
+        record_recycler_controller1.setAdapter(adapter);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         record_recycler.setLayoutManager(mLayoutManager);
@@ -173,17 +244,17 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
                         else if(text.equals("most_runs_in_career") && validation==1)
                             setValuesMostRunInCareer(response);
                         else if(text.equals("highest_average_in_career") && validation==1)
-                            setValuesHighAvgInCareer(response);
+                            setValuesMostRunInCareer(response);
                         else if(text.equals("most_hundreds_in_career") && validation==1)
-                            setValuesMostTon(response);
+                            setValuesMostRunInCareer(response);
                         else if(text.equals("Most_Fifty") && validation==1)
-                            setValuesMostHalfTon(response);
+                            setValuesMostRunInCareer(response);
                         else if(text.equals("best_bowlig_figures_in_match") && validation==1)
                             setValuesBestBowlingInMatch(response);
                         else if(text.equals("most_wickets_in_career") && validation==1)
-                            setValuesMostWckts(response);
+                            setValuesMostWckts(response,1);
                         else if(text.equals("best_career_bowlig_average") && validation==1)
-                            setValuesBestBowlAvg(response);
+                            setValuesMostWckts(response,2);
                         else if(text.equals("WK_Dismissals") && validation==1)
                             setValuesWkDismissal(response);
                         else if(text.equals("highest_partnership") && validation==1)
@@ -225,16 +296,16 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
             JSONObject json = new JSONObject(response);
 
             String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
-            for(int j=0;j<4;j++) {
-                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+            for(int j=14;j<=17;j++) {
+                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j-14]);
                 //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
                 for (int i = 0; i < arrayTestTeam.length(); i++) {
                     int unique=0;String title="";
                     if(i==0) {
-                        unique = j + 1;
-                        title=jsonArray[j];
+                        unique = j;
+                        title=jsonArray[j-14];
                     }else
-                        unique = 16;
+                        unique = 18;
                     String titleSet = title;
                     String player = arrayTestTeam.getJSONObject(i).getString("player_name");
                     String country = arrayTestTeam.getJSONObject(i).getString("country");
@@ -341,30 +412,37 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
             JSONObject json = new JSONObject(response);
 
             String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
-            for(int j=0;j<4;j++) {
-                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+            for(int j=5;j<=8;j++) {
+                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j-5]);
                 //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
                 for (int i = 0; i < arrayTestTeam.length(); i++) {
                     int unique=0;String title="";
                     if(i==0) {
-                        unique = j + 1;
-                        title=jsonArray[j];
-                    }
-                    String titleSet = title;
+                        unique = j;
+                        title=jsonArray[j-5];
+                    }else
+                        unique = 9;
                     String player = arrayTestTeam.getJSONObject(i).getString("player_name");
                     String country = arrayTestTeam.getJSONObject(i).getString("country");
-                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
-                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
-                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
+                    String opposition = arrayTestTeam.getJSONObject(i).getString("opposition");
                     String runs = arrayTestTeam.getJSONObject(i).getString("runs");
-                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
-                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
-                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
+                    String minutes = arrayTestTeam.getJSONObject(i).getString("minutes");
+                    String balls = arrayTestTeam.getJSONObject(i).getString("balls");
+                    String fours = arrayTestTeam.getJSONObject(i).getString("fours");
+                    String sixes = arrayTestTeam.getJSONObject(i).getString("sixes");
+                    String ground = arrayTestTeam.getJSONObject(i).getString("ground");
                     String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
                     String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
                     //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                    setValueInModelCallAdapterMostRunInMatch(unique,title, player, country, oppostition, overs,maidens,runs,
-                            wickets,economy,ground,match_date, last_updated_date);
+
+                    String teamTemp= ConstantCountryShorts.getCountryPostion(country);
+                    if(teamTemp != null)
+                        country = teamTemp;
+                    teamTemp= ConstantCountryShorts.getCountryPostion(opposition);
+                    if(teamTemp != null)
+                        opposition = teamTemp;
+                    setValueInModelCallAdapterMostRunInMatch(unique,title, player, country, opposition, minutes,balls,runs,
+                            fours,sixes,ground,match_date, last_updated_date);
                 }
             }
 
@@ -375,106 +453,113 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
         record_recycler.setAdapter(adapter);
     }
 
-    private void setValueInModelCallAdapterMostRunInMatch(int unique,String tit,String player,String country,String oppostition,String overs,
-                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
+    private void setValueInModelCallAdapterMostRunInMatch(int unique,String tit,String player,String country,String oppostition,String minute,
+                                                         String balls,String runs,String four,String six,String ground,String match_date,String last_updated_date){
 
         CricketRecordsModel cm = new CricketRecordsModel();
 
         cm.setUnique(unique);                  cm.setTitle(tit);
         cm.setPlayer(player);                   cm.setHomeTeam(country);
-        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
-        cm.setMaidens(maidens);                 cm.setRuns(runs);
-        cm.setWickets(wickets);                 cm.setEconomy(economy);
+        cm.setOppositionTeam(oppostition);      cm.setRuns(runs);
+        //cm.setMinutes(maidens);                cm.setFours(overs);
+        cm.setBalls(balls);                    //cm.setSixes(economy);
         cm.setVenue(ground);                    cm.setMatchDate(match_date);
         cm.setLastUpdatedDate(last_updated_date);
         list.add(cm);
     }
 
-    private void setValuesLowInngTotal(String response){
-        list = new ArrayList<CricketRecordsModel>();
-        try {
-            JSONObject json = new JSONObject(response);
+//    private void setValuesLowInngTotal(String response){
+//        list = new ArrayList<CricketRecordsModel>();
+//        try {
+//            JSONObject json = new JSONObject(response);
+//
+//            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
+//            for(int j=0;j<4;j++) {
+//                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+//                //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
+//                for (int i = 0; i < arrayTestTeam.length(); i++) {
+//                    int unique=0;String title="";
+//                    if(i==0) {
+//                        unique = j + 1;
+//                        title=jsonArray[j];
+//                    }
+//                    String titleSet = title;
+//                    String player = arrayTestTeam.getJSONObject(i).getString("player_name");
+//                    String country = arrayTestTeam.getJSONObject(i).getString("country");
+//                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
+//                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
+//                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
+//                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
+//                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
+//                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
+//                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
+//                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
+//                    String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
+//                    //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+//                    setValueInModelCallAdapterLowInngTotal(unique,title, player, country, oppostition, overs,maidens,runs,
+//                            wickets,economy,ground,match_date, last_updated_date);
+//                }
+//            }
+//
+//        }catch (JSONException e){
+//            Log.e("CricketRecordTest",e.toString());
+//        }
+//        CricketRecordsAdapter adapter = new CricketRecordsAdapter(getActivity(), list);
+//        record_recycler.setAdapter(adapter);
+//    }
 
-            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
-            for(int j=0;j<4;j++) {
-                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
-                //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
-                for (int i = 0; i < arrayTestTeam.length(); i++) {
-                    int unique=0;String title="";
-                    if(i==0) {
-                        unique = j + 1;
-                        title=jsonArray[j];
-                    }
-                    String titleSet = title;
-                    String player = arrayTestTeam.getJSONObject(i).getString("player_name");
-                    String country = arrayTestTeam.getJSONObject(i).getString("country");
-                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
-                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
-                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
-                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
-                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
-                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
-                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
-                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
-                    String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
-                    //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                    setValueInModelCallAdapterLowInngTotal(unique,title, player, country, oppostition, overs,maidens,runs,
-                            wickets,economy,ground,match_date, last_updated_date);
-                }
-            }
-
-        }catch (JSONException e){
-            Log.e("CricketRecordTest",e.toString());
-        }
-        CricketRecordsAdapter adapter = new CricketRecordsAdapter(getActivity(), list);
-        record_recycler.setAdapter(adapter);
-    }
-
-    private void setValueInModelCallAdapterLowInngTotal(int unique,String tit,String player,String country,String oppostition,String overs,
-                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
-
-        CricketRecordsModel cm = new CricketRecordsModel();
-
-        cm.setUnique(unique);                  cm.setTitle(tit);
-        cm.setPlayer(player);                   cm.setHomeTeam(country);
-        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
-        cm.setMaidens(maidens);                 cm.setRuns(runs);
-        cm.setWickets(wickets);                 cm.setEconomy(economy);
-        cm.setVenue(ground);                    cm.setMatchDate(match_date);
-        cm.setLastUpdatedDate(last_updated_date);
-        list.add(cm);
-    }
+//    private void setValueInModelCallAdapterLowInngTotal(int unique,String tit,String player,String country,String oppostition,String overs,
+//                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
+//
+//        CricketRecordsModel cm = new CricketRecordsModel();
+//
+//        cm.setUnique(unique);                  cm.setTitle(tit);
+//        cm.setPlayer(player);                   cm.setHomeTeam(country);
+//        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
+//        cm.setMaidens(maidens);                 cm.setRuns(runs);
+//        cm.setWickets(wickets);                 cm.setEconomy(economy);
+//        cm.setVenue(ground);                    cm.setMatchDate(match_date);
+//        cm.setLastUpdatedDate(last_updated_date);
+//        list.add(cm);
+//    }
 
     private void setValuesMostRunInCareer(String response){
         list = new ArrayList<CricketRecordsModel>();
         try {
             JSONObject json = new JSONObject(response);
 
-            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
-            for(int j=0;j<4;j++) {
-                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+            String[] jsonArray={"Test","ODI","T20"};
+            for(int j=10;j<=12;j++) {
+                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j-10]);
                 //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
                 for (int i = 0; i < arrayTestTeam.length(); i++) {
                     int unique=0;String title="";
                     if(i==0) {
-                        unique = j + 1;
-                        title=jsonArray[j];
-                    }
-                    String titleSet = title;
+                        unique = j;
+                        title=jsonArray[j-10];
+                    }else
+                        unique = 13;
                     String player = arrayTestTeam.getJSONObject(i).getString("player_name");
                     String country = arrayTestTeam.getJSONObject(i).getString("country");
-                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
-                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
-                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
-                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
-                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
-                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
-                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
-                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
+                    String span = arrayTestTeam.getJSONObject(i).getString("span");
+                    String matches = arrayTestTeam.getJSONObject(i).getString("matches");
+                    String innings = arrayTestTeam.getJSONObject(i).getString("innings");
+                    String runs = arrayTestTeam.getJSONObject(i).getString("total_runs");
+                    String not_outs = arrayTestTeam.getJSONObject(i).getString("not_outs");
+                    String highest_score = arrayTestTeam.getJSONObject(i).getString("highest_score");
+                    String average = arrayTestTeam.getJSONObject(i).getString("average");
+                    String centuries = arrayTestTeam.getJSONObject(i).getString("centuries");
+                    String fifties = arrayTestTeam.getJSONObject(i).getString("fifties");
+                    String duck_outs = arrayTestTeam.getJSONObject(i).getString("duck_outs");
                     String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
                     //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                    setValueInModelCallAdapterMostRunInCareer(unique,title, player, country, oppostition, overs,maidens,runs,
-                            wickets,economy,ground,match_date, last_updated_date);
+
+                    String teamTemp= ConstantCountryShorts.getCountryPostion(country);
+                    if(teamTemp != null)
+                        country = teamTemp;
+
+                    setValueInModelCallAdapterMostRunInCareer(unique,title, player, country, span, matches,innings,runs,
+                            highest_score,average,centuries,fifties, last_updated_date);
                 }
             }
 
@@ -485,51 +570,229 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
         record_recycler.setAdapter(adapter);
     }
 
-    private void setValueInModelCallAdapterMostRunInCareer(int unique,String tit,String player,String country,String oppostition,String overs,
-                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
+    private void setValueInModelCallAdapterMostRunInCareer(int unique,String tit,String player,String country,String span,String matches,
+                         String innings,String runs,String highest_score,String average,String centuries,String fifties,String last_updated_date){
 
         CricketRecordsModel cm = new CricketRecordsModel();
 
         cm.setUnique(unique);                  cm.setTitle(tit);
         cm.setPlayer(player);                   cm.setHomeTeam(country);
-        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
-        cm.setMaidens(maidens);                 cm.setRuns(runs);
-        cm.setWickets(wickets);                 cm.setEconomy(economy);
-        cm.setVenue(ground);                    cm.setMatchDate(match_date);
+        cm.setSpan(span);                       cm.setNoOfMatches(matches);
+        cm.setNoOfInnings(innings);             cm.setRuns(runs);
+        cm.setHighScore(highest_score);         cm.setAverage(average);
+        cm.setTons(centuries);                  cm.setFifties(fifties);
         cm.setLastUpdatedDate(last_updated_date);
         list.add(cm);
     }
 
-    private void setValuesHighAvgInCareer(String response){
+//    private void setValuesHighAvgInCareer(String response){
+//        list = new ArrayList<CricketRecordsModel>();
+//        try {
+//            JSONObject json = new JSONObject(response);
+//
+//            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
+//            for(int j=0;j<4;j++) {
+//                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+//                //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
+//                for (int i = 0; i < arrayTestTeam.length(); i++) {
+//                    int unique=0;String title="";
+//                    if(i==0) {
+//                        unique = j + 1;
+//                        title=jsonArray[j];
+//                    }
+//                    String titleSet = title;
+//                    String player = arrayTestTeam.getJSONObject(i).getString("player_name");
+//                    String country = arrayTestTeam.getJSONObject(i).getString("country");
+//                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
+//                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
+//                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
+//                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
+//                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
+//                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
+//                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
+//                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
+//                    String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
+//                    //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+//                    setValueInModelCallAdapterHighAvgInCareer(unique,title, player, country, oppostition, overs,maidens,runs,
+//                            wickets,economy,ground,match_date, last_updated_date);
+//                }
+//            }
+//
+//        }catch (JSONException e){
+//            Log.e("CricketRecordTest",e.toString());
+//        }
+//        CricketRecordsAdapter adapter = new CricketRecordsAdapter(getActivity(), list);
+//        record_recycler.setAdapter(adapter);
+//    }
+
+//    private void setValueInModelCallAdapterHighAvgInCareer(int unique,String tit,String player,String country,String oppostition,String overs,
+//                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
+//
+//        CricketRecordsModel cm = new CricketRecordsModel();
+//
+//        cm.setUnique(unique);                  cm.setTitle(tit);
+//        cm.setPlayer(player);                   cm.setHomeTeam(country);
+//        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
+//        cm.setMaidens(maidens);                 cm.setRuns(runs);
+//        cm.setWickets(wickets);                 cm.setEconomy(economy);
+//        cm.setVenue(ground);                    cm.setMatchDate(match_date);
+//        cm.setLastUpdatedDate(last_updated_date);
+//        list.add(cm);
+//    }
+
+//    private void setValuesMostTon(String response){
+//        list = new ArrayList<CricketRecordsModel>();
+//        try {
+//            JSONObject json = new JSONObject(response);
+//
+//            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
+//            for(int j=0;j<4;j++) {
+//                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+//                //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
+//                for (int i = 0; i < arrayTestTeam.length(); i++) {
+//                    int unique=0;String title="";
+//                    if(i==0) {
+//                        unique = j + 1;
+//                        title=jsonArray[j];
+//                    }
+//                    String titleSet = title;
+//                    String player = arrayTestTeam.getJSONObject(i).getString("player_name");
+//                    String country = arrayTestTeam.getJSONObject(i).getString("country");
+//                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
+//                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
+//                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
+//                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
+//                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
+//                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
+//                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
+//                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
+//                    String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
+//                    //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+//                    setValueInModelCallAdapterMostTon(unique,title, player, country, oppostition, overs,maidens,runs,
+//                            wickets,economy,ground,match_date, last_updated_date);
+//                }
+//            }
+//
+//        }catch (JSONException e){
+//            Log.e("CricketRecordTest",e.toString());
+//        }
+//        CricketRecordsAdapter adapter = new CricketRecordsAdapter(getActivity(), list);
+//        record_recycler.setAdapter(adapter);
+//    }
+//
+//    private void setValueInModelCallAdapterMostTon(int unique,String tit,String player,String country,String oppostition,String overs,
+//                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
+//
+//        CricketRecordsModel cm = new CricketRecordsModel();
+//
+//        cm.setUnique(unique);                  cm.setTitle(tit);
+//        cm.setPlayer(player);                   cm.setHomeTeam(country);
+//        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
+//        cm.setMaidens(maidens);                 cm.setRuns(runs);
+//        cm.setWickets(wickets);                 cm.setEconomy(economy);
+//        cm.setVenue(ground);                    cm.setMatchDate(match_date);
+//        cm.setLastUpdatedDate(last_updated_date);
+//        list.add(cm);
+//    }
+
+//    private void setValuesMostHalfTon(String response){
+//        list = new ArrayList<CricketRecordsModel>();
+//        try {
+//            JSONObject json = new JSONObject(response);
+//
+//            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
+//            for(int j=0;j<4;j++) {
+//                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+//                //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
+//                for (int i = 0; i < arrayTestTeam.length(); i++) {
+//                    int unique=0;String title="";
+//                    if(i==0) {
+//                        unique = j + 1;
+//                        title=jsonArray[j];
+//                    }
+//                    String titleSet = title;
+//                    String player = arrayTestTeam.getJSONObject(i).getString("player_name");
+//                    String country = arrayTestTeam.getJSONObject(i).getString("country");
+//                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
+//                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
+//                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
+//                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
+//                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
+//                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
+//                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
+//                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
+//                    String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
+//                    //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+//                    setValueInModelCallAdapterMostHalfTon(unique,title, player, country, oppostition, overs,maidens,runs,
+//                            wickets,economy,ground,match_date, last_updated_date);
+//                }
+//            }
+//
+//        }catch (JSONException e){
+//            Log.e("CricketRecordTest",e.toString());
+//        }
+//        CricketRecordsAdapter adapter = new CricketRecordsAdapter(getActivity(), list);
+//        record_recycler.setAdapter(adapter);
+//    }
+//
+//    private void setValueInModelCallAdapterMostHalfTon(int unique,String tit,String player,String country,String oppostition,String overs,
+//                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
+//
+//        CricketRecordsModel cm = new CricketRecordsModel();
+//
+//        cm.setUnique(unique);                  cm.setTitle(tit);
+//        cm.setPlayer(player);                   cm.setHomeTeam(country);
+//        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
+//        cm.setMaidens(maidens);                 cm.setRuns(runs);
+//        cm.setWickets(wickets);                 cm.setEconomy(economy);
+//        cm.setVenue(ground);                    cm.setMatchDate(match_date);
+//        cm.setLastUpdatedDate(last_updated_date);
+//        list.add(cm);
+//    }
+
+    private void setValuesMostWckts(String response, int value){
         list = new ArrayList<CricketRecordsModel>();
         try {
             JSONObject json = new JSONObject(response);
 
-            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
-            for(int j=0;j<4;j++) {
-                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+            String[] jsonArray={"Test","ODI","T20"};
+            for(int j=19;j<=21;j++) {
+                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j-19]);
                 //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
                 for (int i = 0; i < arrayTestTeam.length(); i++) {
                     int unique=0;String title="";
                     if(i==0) {
-                        unique = j + 1;
-                        title=jsonArray[j];
-                    }
-                    String titleSet = title;
+                        unique = j;
+                        title=jsonArray[j-19];
+                    }else
+                        unique = 22;
                     String player = arrayTestTeam.getJSONObject(i).getString("player_name");
                     String country = arrayTestTeam.getJSONObject(i).getString("country");
-                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
-                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
-                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
+                    String span = arrayTestTeam.getJSONObject(i).getString("span");
+                    String matches = arrayTestTeam.getJSONObject(i).getString("matches");
+                    String innings="";
+                    if(value==1)
+                        innings = arrayTestTeam.getJSONObject(i).getString("innings");
+                    String balls = arrayTestTeam.getJSONObject(i).getString("balls");
                     String runs = arrayTestTeam.getJSONObject(i).getString("runs");
                     String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
+                    String bst_bwl_inng = arrayTestTeam.getJSONObject(i).getString("best_bowling_in_innings");
+                    String bst_bwl_mtch = arrayTestTeam.getJSONObject(i).getString("best_bowling_in_match");
+                    String average = arrayTestTeam.getJSONObject(i).getString("average");
                     String economy = arrayTestTeam.getJSONObject(i).getString("economy");
-                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
-                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
+                    String strike_rate = arrayTestTeam.getJSONObject(i).getString("strike_rate");
+                    String five_wickets = arrayTestTeam.getJSONObject(i).getString("five_wickets");
+                    String ten_wickets = arrayTestTeam.getJSONObject(i).getString("ten_wickets");
                     String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
                     //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                    setValueInModelCallAdapterHighAvgInCareer(unique,title, player, country, oppostition, overs,maidens,runs,
-                            wickets,economy,ground,match_date, last_updated_date);
+                    if(bst_bwl_mtch.equals("0"))
+                        bst_bwl_mtch="-";
+                    float temp = Float.parseFloat(average);
+                    average= String.format("%.1f", temp);
+//                    double temp1 = Double.parseDouble(average);
+//                    average= String.valueOf(Math.round(temp1 * 10)/10);
+                    setValueInModelCallAdapterMostWckts(unique,title, player, country, span, matches,innings,balls,runs,
+                            wickets,bst_bwl_inng,bst_bwl_mtch,average,economy,strike_rate,five_wickets,ten_wickets, last_updated_date);
                 }
             }
 
@@ -540,239 +803,77 @@ public class CricketRecords extends Fragment implements CallRecordsGetMethod {
         record_recycler.setAdapter(adapter);
     }
 
-    private void setValueInModelCallAdapterHighAvgInCareer(int unique,String tit,String player,String country,String oppostition,String overs,
-                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
+    private void setValueInModelCallAdapterMostWckts(int unique,String tit,String player,String country,String span,String matches,
+                        String innings,String balls,String runs,String wickets,String bst_bwl_ing,String bst_bwl_mat,String avg,
+                                                     String economy,String sr,String w5,String w10,String last_updated_date){
 
         CricketRecordsModel cm = new CricketRecordsModel();
 
-        cm.setUnique(unique);                  cm.setTitle(tit);
+        cm.setUnique(unique);                   cm.setTitle(tit);
         cm.setPlayer(player);                   cm.setHomeTeam(country);
-        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
-        cm.setMaidens(maidens);                 cm.setRuns(runs);
-        cm.setWickets(wickets);                 cm.setEconomy(economy);
-        cm.setVenue(ground);                    cm.setMatchDate(match_date);
-        cm.setLastUpdatedDate(last_updated_date);
+        cm.setSpan(span);                       cm.setNoOfMatches(matches);
+        cm.setNoOfInnings(innings);             cm.setBalls(balls);
+        cm.setRuns(runs);                       cm.setWickets(wickets);
+        cm.setBestBowledInMatch(bst_bwl_mat);   cm.setBestBowledInInngs(bst_bwl_ing);
+        cm.setAverage(avg);                     cm.setEconomy(economy);
+        cm.setStrikeRate(sr);                   cm.setFiveWickets(w5);
+        cm.setTenWickets(w10);                  cm.setLastUpdatedDate(last_updated_date);
         list.add(cm);
     }
-
-    private void setValuesMostTon(String response){
-        list = new ArrayList<CricketRecordsModel>();
-        try {
-            JSONObject json = new JSONObject(response);
-
-            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
-            for(int j=0;j<4;j++) {
-                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
-                //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
-                for (int i = 0; i < arrayTestTeam.length(); i++) {
-                    int unique=0;String title="";
-                    if(i==0) {
-                        unique = j + 1;
-                        title=jsonArray[j];
-                    }
-                    String titleSet = title;
-                    String player = arrayTestTeam.getJSONObject(i).getString("player_name");
-                    String country = arrayTestTeam.getJSONObject(i).getString("country");
-                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
-                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
-                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
-                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
-                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
-                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
-                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
-                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
-                    String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
-                    //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                    setValueInModelCallAdapterMostTon(unique,title, player, country, oppostition, overs,maidens,runs,
-                            wickets,economy,ground,match_date, last_updated_date);
-                }
-            }
-
-        }catch (JSONException e){
-            Log.e("CricketRecordTest",e.toString());
-        }
-        CricketRecordsAdapter adapter = new CricketRecordsAdapter(getActivity(), list);
-        record_recycler.setAdapter(adapter);
-    }
-
-    private void setValueInModelCallAdapterMostTon(int unique,String tit,String player,String country,String oppostition,String overs,
-                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
-
-        CricketRecordsModel cm = new CricketRecordsModel();
-
-        cm.setUnique(unique);                  cm.setTitle(tit);
-        cm.setPlayer(player);                   cm.setHomeTeam(country);
-        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
-        cm.setMaidens(maidens);                 cm.setRuns(runs);
-        cm.setWickets(wickets);                 cm.setEconomy(economy);
-        cm.setVenue(ground);                    cm.setMatchDate(match_date);
-        cm.setLastUpdatedDate(last_updated_date);
-        list.add(cm);
-    }
-
-    private void setValuesMostHalfTon(String response){
-        list = new ArrayList<CricketRecordsModel>();
-        try {
-            JSONObject json = new JSONObject(response);
-
-            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
-            for(int j=0;j<4;j++) {
-                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
-                //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
-                for (int i = 0; i < arrayTestTeam.length(); i++) {
-                    int unique=0;String title="";
-                    if(i==0) {
-                        unique = j + 1;
-                        title=jsonArray[j];
-                    }
-                    String titleSet = title;
-                    String player = arrayTestTeam.getJSONObject(i).getString("player_name");
-                    String country = arrayTestTeam.getJSONObject(i).getString("country");
-                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
-                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
-                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
-                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
-                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
-                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
-                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
-                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
-                    String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
-                    //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                    setValueInModelCallAdapterMostHalfTon(unique,title, player, country, oppostition, overs,maidens,runs,
-                            wickets,economy,ground,match_date, last_updated_date);
-                }
-            }
-
-        }catch (JSONException e){
-            Log.e("CricketRecordTest",e.toString());
-        }
-        CricketRecordsAdapter adapter = new CricketRecordsAdapter(getActivity(), list);
-        record_recycler.setAdapter(adapter);
-    }
-
-    private void setValueInModelCallAdapterMostHalfTon(int unique,String tit,String player,String country,String oppostition,String overs,
-                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
-
-        CricketRecordsModel cm = new CricketRecordsModel();
-
-        cm.setUnique(unique);                  cm.setTitle(tit);
-        cm.setPlayer(player);                   cm.setHomeTeam(country);
-        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
-        cm.setMaidens(maidens);                 cm.setRuns(runs);
-        cm.setWickets(wickets);                 cm.setEconomy(economy);
-        cm.setVenue(ground);                    cm.setMatchDate(match_date);
-        cm.setLastUpdatedDate(last_updated_date);
-        list.add(cm);
-    }
-
-    private void setValuesMostWckts(String response){
-        list = new ArrayList<CricketRecordsModel>();
-        try {
-            JSONObject json = new JSONObject(response);
-
-            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
-            for(int j=0;j<4;j++) {
-                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
-                //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
-                for (int i = 0; i < arrayTestTeam.length(); i++) {
-                    int unique=0;String title="";
-                    if(i==0) {
-                        unique = j + 1;
-                        title=jsonArray[j];
-                    }
-                    String titleSet = title;
-                    String player = arrayTestTeam.getJSONObject(i).getString("player_name");
-                    String country = arrayTestTeam.getJSONObject(i).getString("country");
-                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
-                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
-                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
-                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
-                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
-                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
-                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
-                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
-                    String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
-                    //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                    setValueInModelCallAdapterMostWckts(unique,title, player, country, oppostition, overs,maidens,runs,
-                            wickets,economy,ground,match_date, last_updated_date);
-                }
-            }
-
-        }catch (JSONException e){
-            Log.e("CricketRecordTest",e.toString());
-        }
-        CricketRecordsAdapter adapter = new CricketRecordsAdapter(getActivity(), list);
-        record_recycler.setAdapter(adapter);
-    }
-
-    private void setValueInModelCallAdapterMostWckts(int unique,String tit,String player,String country,String oppostition,String overs,
-                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
-
-        CricketRecordsModel cm = new CricketRecordsModel();
-
-        cm.setUnique(unique);                  cm.setTitle(tit);
-        cm.setPlayer(player);                   cm.setHomeTeam(country);
-        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
-        cm.setMaidens(maidens);                 cm.setRuns(runs);
-        cm.setWickets(wickets);                 cm.setEconomy(economy);
-        cm.setVenue(ground);                    cm.setMatchDate(match_date);
-        cm.setLastUpdatedDate(last_updated_date);
-        list.add(cm);
-    }
-    private void setValuesBestBowlAvg(String response){
-        list = new ArrayList<CricketRecordsModel>();
-        try {
-            JSONObject json = new JSONObject(response);
-
-            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
-            for(int j=0;j<4;j++) {
-                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
-                //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
-                for (int i = 0; i < arrayTestTeam.length(); i++) {
-                    int unique=0;String title="";
-                    if(i==0) {
-                        unique = j + 1;
-                        title=jsonArray[j];
-                    }
-                    String titleSet = title;
-                    String player = arrayTestTeam.getJSONObject(i).getString("player_name");
-                    String country = arrayTestTeam.getJSONObject(i).getString("country");
-                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
-                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
-                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
-                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
-                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
-                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
-                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
-                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
-                    String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
-                    //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
-                    setValueInModelCallAdapterBestBowlAvg(unique,title, player, country, oppostition, overs,maidens,runs,
-                            wickets,economy,ground,match_date, last_updated_date);
-                }
-            }
-
-        }catch (JSONException e){
-            Log.e("CricketRecordTest",e.toString());
-        }
-        CricketRecordsAdapter adapter = new CricketRecordsAdapter(getActivity(), list);
-        record_recycler.setAdapter(adapter);
-    }
-
-    private void setValueInModelCallAdapterBestBowlAvg(int unique,String tit,String player,String country,String oppostition,String overs,
-                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
-
-        CricketRecordsModel cm = new CricketRecordsModel();
-
-        cm.setUnique(unique);                  cm.setTitle(tit);
-        cm.setPlayer(player);                   cm.setHomeTeam(country);
-        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
-        cm.setMaidens(maidens);                 cm.setRuns(runs);
-        cm.setWickets(wickets);                 cm.setEconomy(economy);
-        cm.setVenue(ground);                    cm.setMatchDate(match_date);
-        cm.setLastUpdatedDate(last_updated_date);
-        list.add(cm);
-    }
+//    private void setValuesBestBowlAvg(String response){
+//        list = new ArrayList<CricketRecordsModel>();
+//        try {
+//            JSONObject json = new JSONObject(response);
+//
+//            String[] jsonArray={"TestMatch","TestInnings","ODI","T20"};
+//            for(int j=0;j<4;j++) {
+//                JSONArray arrayTestTeam = json.getJSONArray(jsonArray[j]);
+//                //setValueInModelCallAdapter(j+1, jsonArray[j], "", "", "", "","","","","","","");
+//                for (int i = 0; i < arrayTestTeam.length(); i++) {
+//                    int unique=0;String title="";
+//                    if(i==0) {
+//                        unique = j + 1;
+//                        title=jsonArray[j];
+//                    }
+//                    String titleSet = title;
+//                    String player = arrayTestTeam.getJSONObject(i).getString("player_name");
+//                    String country = arrayTestTeam.getJSONObject(i).getString("country");
+//                    String oppostition = arrayTestTeam.getJSONObject(i).getString("oppostition");
+//                    String overs = arrayTestTeam.getJSONObject(i).getString("overs");
+//                    String maidens = arrayTestTeam.getJSONObject(i).getString("maidens");
+//                    String runs = arrayTestTeam.getJSONObject(i).getString("runs");
+//                    String wickets = arrayTestTeam.getJSONObject(i).getString("wickets");
+//                    String economy = arrayTestTeam.getJSONObject(i).getString("economy");
+//                    String ground = "@" + arrayTestTeam.getJSONObject(i).getString("ground") + ", ";
+//                    String match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
+//                    String last_updated_date = arrayTestTeam.getJSONObject(i).getString("updated_date");
+//                    //Toast.makeText(getActivity(),team+rank+matches+points,Toast.LENGTH_SHORT).show();
+//                    setValueInModelCallAdapterBestBowlAvg(unique,title, player, country, oppostition, overs,maidens,runs,
+//                            wickets,economy,ground,match_date, last_updated_date);
+//                }
+//            }
+//
+//        }catch (JSONException e){
+//            Log.e("CricketRecordTest",e.toString());
+//        }
+//        CricketRecordsAdapter adapter = new CricketRecordsAdapter(getActivity(), list);
+//        record_recycler.setAdapter(adapter);
+//    }
+//
+//    private void setValueInModelCallAdapterBestBowlAvg(int unique,String tit,String player,String country,String oppostition,String overs,
+//                                                         String maidens,String runs,String wickets,String economy,String ground,String match_date,String last_updated_date){
+//
+//        CricketRecordsModel cm = new CricketRecordsModel();
+//
+//        cm.setUnique(unique);                  cm.setTitle(tit);
+//        cm.setPlayer(player);                   cm.setHomeTeam(country);
+//        cm.setOppositionTeam(oppostition);      cm.setOvers(overs);
+//        cm.setMaidens(maidens);                 cm.setRuns(runs);
+//        cm.setWickets(wickets);                 cm.setEconomy(economy);
+//        cm.setVenue(ground);                    cm.setMatchDate(match_date);
+//        cm.setLastUpdatedDate(last_updated_date);
+//        list.add(cm);
+//    }
 
     private void setValuesWkDismissal(String response){
         list = new ArrayList<CricketRecordsModel>();

@@ -10,6 +10,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import Constants.Constant;
@@ -61,11 +62,11 @@ public class CricketRecordsControlAdapter extends RecyclerView.Adapter{
     View lastButton,currentButton;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public Button b1;
+        public TextView b1;
         boolean firstButton=true;
         public MyViewHolder(View view) {
             super(view);
-            b1 = (Button) view.findViewById(R.id.b1);
+            b1 = (TextView) view.findViewById(R.id.b1);
             b1.setOnClickListener(this);
         }
 
@@ -85,17 +86,17 @@ public class CricketRecordsControlAdapter extends RecyclerView.Adapter{
         public void onClick(View v) {
             Toast.makeText(context,v.getTag().toString(),Toast.LENGTH_LONG).show();
             currentButton= b1;
-            changeButtonColor(lastButton,currentButton);
-            obj.callUrlCallMethod(v.getTag().toString());
+            changeButtonColor(lastButton,currentButton,v);
             lastButton= b1;
         }
 
-        private void changeButtonColor(View oldbtn,View newbtn){
+        private void changeButtonColor(View oldbtn,View newbtn, View v){
             if(oldbtn==newbtn)
                 Toast.makeText(context,"You are here",Toast.LENGTH_LONG).show();
             else{
                 oldbtn.setBackgroundColor(context.getResources().getColor(R.color.grey_light1));
                 newbtn.setBackgroundColor(context.getResources().getColor(R.color.white));
+                obj.callUrlCallMethod(v.getTag().toString());
 //                if(code==1) {
 //                    changeNormalColor(code);
 //                    test.setBackgroundColor(getResources().getColor(R.color.white));

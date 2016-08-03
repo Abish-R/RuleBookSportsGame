@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -100,6 +101,8 @@ public class CricketSchedule extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.cricket_tabranking, container, false);
+        LinearLayout tapping_layout = (LinearLayout)view.findViewById(R.id.tapping_layout);
+        tapping_layout.setVisibility(View.GONE);
         record_recycler = (RecyclerView) view.findViewById(R.id.record_recycler);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -187,25 +190,25 @@ public class CricketSchedule extends Fragment {
             record_recycler.setAdapter(adapter);
 
             JSONObject json = new JSONObject(response);
-            JSONArray arrayTestTeam = json.getJSONArray("Match-Fixtures");
-            for (int i=0; i<arrayTestTeam.length();i++){
+            JSONArray fictureArray = json.getJSONArray("Match-Fixtures");
+            for (int i=0; i<fictureArray.length();i++){
                 String series_name,home_team,opposition_team,match_description,match_date,venue,latitude,
                         longitude,broadcasting_channel,local_time,gmt_time,ist_time,game_format,gender,last_updated_date;
-                series_name = arrayTestTeam.getJSONObject(i).getString("series_name");
-                home_team = arrayTestTeam.getJSONObject(i).getString("home_team");
-                opposition_team = arrayTestTeam.getJSONObject(i).getString("opposition_team");
-                match_description = arrayTestTeam.getJSONObject(i).getString("match_description");
-                match_date = arrayTestTeam.getJSONObject(i).getString("match_date");
-                venue = arrayTestTeam.getJSONObject(i).getString("venue");
-                latitude = arrayTestTeam.getJSONObject(i).getString("latitude");
-                longitude = arrayTestTeam.getJSONObject(i).getString("longitude");
-                broadcasting_channel = arrayTestTeam.getJSONObject(i).getString("broadcasting_channel");
-                local_time = arrayTestTeam.getJSONObject(i).getString("local_time");
-                gmt_time = arrayTestTeam.getJSONObject(i).getString("gmt_time");
-                ist_time = arrayTestTeam.getJSONObject(i).getString("ist_time");
-                game_format = arrayTestTeam.getJSONObject(i).getString("game_format");
-                gender = arrayTestTeam.getJSONObject(i).getString("gender");
-                last_updated_date = arrayTestTeam.getJSONObject(i).getString("last_updated_date");
+                series_name = fictureArray.getJSONObject(i).getString("series_name");
+                home_team = fictureArray.getJSONObject(i).getString("home_team");
+                opposition_team = fictureArray.getJSONObject(i).getString("opposition_team");
+                match_description = fictureArray.getJSONObject(i).getString("match_description");
+                match_date = fictureArray.getJSONObject(i).getString("match_start_date");
+                venue = fictureArray.getJSONObject(i).getString("venue");
+                latitude = fictureArray.getJSONObject(i).getString("latitude");
+                longitude = fictureArray.getJSONObject(i).getString("longitude");
+                broadcasting_channel = fictureArray.getJSONObject(i).getString("broadcasting_channel");
+                local_time = fictureArray.getJSONObject(i).getString("local_time");
+                gmt_time = fictureArray.getJSONObject(i).getString("gmt_time");
+                ist_time = fictureArray.getJSONObject(i).getString("ist_time");
+                game_format = fictureArray.getJSONObject(i).getString("game_format");
+                gender = fictureArray.getJSONObject(i).getString("gender");
+                last_updated_date = fictureArray.getJSONObject(i).getString("last_updated_date");
 
                 setValueInModelCallAdapter(series_name,home_team,opposition_team,match_description,match_date,venue,latitude,
                         longitude,broadcasting_channel,local_time,gmt_time,ist_time,game_format,gender,last_updated_date);

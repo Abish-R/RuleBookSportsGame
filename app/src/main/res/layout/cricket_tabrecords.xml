@@ -18,9 +18,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/record_recycler_controller1"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"/>
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/record_recycler_controller"
         android:layout_width="match_parent"
-        android:layout_height="35dp" />
+        android:layout_height="15dp"/>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/record_recycler"
