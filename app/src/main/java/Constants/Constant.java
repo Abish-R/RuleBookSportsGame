@@ -6,6 +6,12 @@ package Constants;
 public class Constant {
     public static String Tag="CricketAdapterTest";
 
+    public static int theme=-1;
+    public static int reloaded=-1;
+
+    public static String sharedPrefName = "RuleBook";
+    public static String sharedPrefThemeSaveKey = "ThemeValue";
+
 
     public static String[] recordsName={"Highest Inngs Total","Lowest Inngs Total","Most Runs in a match","Most Runs in Career",
             "Career Batting Average","Most Hundreds","Most Fifties","Best Bowling","Most Wickets","Career Bowling Average",

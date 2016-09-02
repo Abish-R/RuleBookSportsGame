@@ -9,8 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import Constants.Constant;
 import Constants.ConstantGetterMainPage;
 import abish.rulebooksportsgame.adapter.MainPageAdapter;
+import util.SetCustomThemeToActivity;
 
 /**
  * Created by INDP on 17-Jun-16.
@@ -22,6 +24,10 @@ public class MainSportsPage extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SetCustomThemeToActivity obj = new SetCustomThemeToActivity();
+        obj.setCustomTheme(this, Constant.theme);
+
         setContentView(R.layout.sports_mainpage);
 
         initializeView();

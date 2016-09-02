@@ -7,4 +7,15 @@
     <color name="grey_light1">#e2e0e1</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+
+    <color name="colorPrimary_dplct">#767fb4</color>
+    <color name="colorPrimaryDark_dplct">#545e9e</color>
+    <color name="colorAccent_dplct">#fa7ca7</color>
+    <color name="grey_light_dplct">#c1c0c0</color>
+    <color name="grey_light1_dplct">#aea8ab</color>
+    <color name="black_dplct">#000000</color>
+    <color name="white_dplct">#ffffff</color>
+    
+    <color name="mycolor1">#fff000</color>
+    <color name="mycolor2">#fff099</color>
 </resources>

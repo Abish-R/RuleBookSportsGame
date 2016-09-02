@@ -11,7 +11,9 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import Constants.Constant;
 import abish.rulebooksportsgame.adapter.Pager;
+import util.SetCustomThemeToActivity;
 
 /**
  * Created by INDP on 21-Jun-16.
@@ -28,6 +30,9 @@ public class CricketActivity extends AppCompatActivity implements TabLayout.OnTa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SetCustomThemeToActivity obj = new SetCustomThemeToActivity();
+        obj.setCustomTheme(this, Constant.theme);
+
         setContentView(R.layout.cricket_main);
 
         AppController analyticObject = (AppController) getApplication();

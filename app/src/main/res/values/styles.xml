@@ -14,7 +14,41 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    
+    <style name="myStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="background">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/cardview_shadow_start_color</item>
+    </style>
+
+    <style name="myStyle1">
+        <item name="background">@color/white</item>
+        <item name="colorPrimary">#aa2345</item>
+        <item name="colorPrimaryDark">#dd2345</item>
+        <item name="colorAccent">#ff5432</item>
+    </style>
+
+    <style name="myStyle2">
+        <item name="background">@color/white</item>
+        <item name="colorPrimary">#fff345</item>
+        <item name="colorPrimaryDark">#9ff346</item>
+        <item name="colorAccent">#8fe345</item>
+    </style>
+
+    <style name="myStyle3">
+        <item name="background">@color/white</item>
+        <item name="colorPrimary">#f0f00f</item>
+        <item name="colorPrimaryDark">#0f0</item>
+        <item name="colorAccent">#ff00</item>
+    </style>
+
+    <style name="myStyle4" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="background">@color/white</item>
+        <item name="colorPrimary">#aaff11</item>
+        <item name="colorPrimaryDark">#0ff9aa</item>
+        <item name="colorAccent">#55508f</item>
+    </style>
 
 </resources>

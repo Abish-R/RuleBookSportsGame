@@ -90,7 +90,7 @@ public class CricketRecordsAdapter extends RecyclerView.Adapter{
             return new MyViewHolderCaptainRecordVal(LayoutInflater.from(parent.getContext()).
                     inflate(R.layout.cricket_records_captain_valcard, parent, false));
         else
-            return null;//
+            return null;
 
     }
 
@@ -943,7 +943,7 @@ public class CricketRecordsAdapter extends RecyclerView.Adapter{
     }
 
     public class MyViewHolderCaptainRecordTit extends RecyclerView.ViewHolder{
-        public TextView subtitle,name,team,span,mat_win_loss_winpercent,last_update_date;
+        public TextView subtitle,name,team,span,mat,win,loss,win_percent,last_update_date;
         public RelativeLayout layout;
         public View mCardView;
 
@@ -953,7 +953,10 @@ public class CricketRecordsAdapter extends RecyclerView.Adapter{
             name = (TextView) view.findViewById(R.id.name);
             team = (TextView) view.findViewById(R.id.team);
             span = (TextView) view.findViewById(R.id.span);
-            mat_win_loss_winpercent = (TextView) view.findViewById(R.id.mat_win_loss_winpercent);
+            mat = (TextView) view.findViewById(R.id.mat);
+            win = (TextView) view.findViewById(R.id.win);
+            loss = (TextView) view.findViewById(R.id.loss);
+            win_percent = (TextView) view.findViewById(R.id.win_percent);
             last_update_date = (TextView) view.findViewById(R.id.last_update_date);
             layout = (RelativeLayout) view.findViewById(R.id.layout);
             mCardView = (CardView) view.findViewById(R.id.card);
@@ -966,9 +969,10 @@ public class CricketRecordsAdapter extends RecyclerView.Adapter{
             name.setText(items.get(position).getPlayer());
             team.setText(items.get(position).getHomeTeam());
             span.setText(items.get(position).getSpan());
-            mat_win_loss_winpercent.setText(items.get(position).getNoOfMatches()+"/"+
-                    items.get(position).getNoOfMatchWon()+"/"+items.get(position).getNoOfMatchLost()+"/"+
-                    items.get(position).getWinPercent());
+            mat.setText(items.get(position).getNoOfMatches());
+            win.setText(items.get(position).getNoOfMatchWon());
+            loss.setText(items.get(position).getNoOfMatchLost());
+            win_percent.setText(items.get(position).getWinPercent());
 
 //            setFadeAnimation(mCardView);
 //            animate(mCardView,position);
@@ -994,7 +998,7 @@ public class CricketRecordsAdapter extends RecyclerView.Adapter{
     }
 
     public class MyViewHolderCaptainRecordVal extends RecyclerView.ViewHolder{
-        public TextView name,team,span,mat_win_loss_winpercent;
+        public TextView name,team,span,mat,win,loss,win_percent;
         public RelativeLayout layout;
         public View mCardView;
 
@@ -1003,7 +1007,10 @@ public class CricketRecordsAdapter extends RecyclerView.Adapter{
             name = (TextView) view.findViewById(R.id.name);
             team = (TextView) view.findViewById(R.id.team);
             span = (TextView) view.findViewById(R.id.span);
-            mat_win_loss_winpercent = (TextView) view.findViewById(R.id.mat_win_loss_winpercent);
+            mat = (TextView) view.findViewById(R.id.mat);
+            win = (TextView) view.findViewById(R.id.win);
+            loss = (TextView) view.findViewById(R.id.loss);
+            win_percent = (TextView) view.findViewById(R.id.win_percent);
             layout = (RelativeLayout) view.findViewById(R.id.layout);
             mCardView = (CardView) view.findViewById(R.id.card);
             //mCardView.setOnClickListener(this);
@@ -1013,9 +1020,10 @@ public class CricketRecordsAdapter extends RecyclerView.Adapter{
             name.setText(items.get(position).getPlayer());
             team.setText(items.get(position).getHomeTeam());
             span.setText(items.get(position).getSpan());
-            mat_win_loss_winpercent.setText(items.get(position).getNoOfMatches()+"/"+
-                    items.get(position).getNoOfMatchWon()+"/"+items.get(position).getNoOfMatchLost()+"/"+
-                    items.get(position).getWinPercent());
+            mat.setText(items.get(position).getNoOfMatches());
+            win.setText(items.get(position).getNoOfMatchWon());
+            loss.setText(items.get(position).getNoOfMatchLost());
+            win_percent.setText(items.get(position).getWinPercent());
 
             setFadeAnimation(mCardView);
             animate(mCardView,position);

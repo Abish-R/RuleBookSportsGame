@@ -264,96 +264,96 @@ public class ConstantCricket {
                     "and to get batsmen out by catching or running them out."
             };
 
-    public static String records_major_title[]={"Test","ODI","T20","Players"};
-    public static String records_test_subtitle[]={"Largest margin of victory","Most consecutive series without defeat","Most consecutive defeats",
-            "Highest innings totals","Lowest innings totals","Most runs in one day","Most wickets in one day","Most ducks in a match"};
-    public static String records_test_title1[]={"Winner","Margin","Opposition","Ground","Match Date"};
-    public static String records_test_title2[]={"Team","Series","From","To"};
-    public static String records_test_title3[]={"Team","Mat","From","To"};
-    public static String records_test_title4[]={"Team","Score","Overs","RR","Inns","Opposition","Ground","Match Date"};
-    public static String records_test_title5[]={"Team","Score","Overs","RR","Inns","Opposition","Ground","Match Date"};
-    public static String records_test_title6[]={"Team 1","Team 2","Day" ,"Runs","Wkts", "Ground", "Match Date"};
-    public static String records_test_title7[]={"Team 1","Team 2","Day","Runs" ,"Wkts","Ground","Match Date"};
-    public static String records_test_title8[]={"Team 1","Team 2","Ducks", "Winner","Ground","Match Date","Scorecard"};
-
-    public static String records_test_value1[]={"England","inns & 579 runs","v Australia","The Oval","20 Aug 1938",
-            "Australia","inns & 360 runs","v South Africa","Johannesburg", "22 Feb 2002",
-            "West Indies", "inns & 336 runs","v India","Kolkata","31 Dec 1958"};
-    public static String records_test_value2[]={"West Indies","29","1980","1994/95"};
-    public static String records_test_value3[]={"Bangladesh", "21","15 Nov 2001","19 Feb 2004"};
-    public static String records_test_value4[]={"Sri Lanka","952/6d", "271.0" ,"3.51","2" ,"v India","Colombo (RPS)", "2 Aug 1997",
-            "England","903/7d","335.2", "2.69", "1", "v Australia","The Oval","20 Aug 1938",
-            "England","849" ,"258.2","3.28","1","v West Indies", "Kingston","3 Apr 1930"};
-    public static String records_test_value5[]={"New Zealand", "26","27.0","0.96","3","v England","Auckland","25 Mar 1955",
-            "South Africa","30","18.4x5", "1.91","4","v England","Port Elizabeth" ,"13 Feb 1896",
-            "South Africa" ,"30" , "12.3" , "2.40","2","v England", "Birmingham" , "14 Jun 1924"};
-    public static String records_test_value6[]={"England","India","2", "588", "6", "Manchester", "25 Jul 1936",
-            "England","South Africa", "2", "522", "2","Lord's", "28 Jun 1924",
-            "Sri Lanka",  "Bangladesh" ,"2", "509", "9", "Colombo(PSS)", "21 Jul 2002"};
-    public static String records_test_value7[]={"England" ,"Australia","2", "157","27","Lord's","16 Jul 1888" ,
-            "Australia","England","1","221","25","Melbourne","1 Jan 1902",
-            "England","Australia" ,"2","255" ,"24","The Oval","10 Aug 1896"};
-    public static String records_test_value8[]={"England","Australia","11","England","Manchester","30 Aug 1888",
-            "Australia","England","11","Australia","Melbourne","5 Mar 1904",
-            "South Africa" ,"England","11","England","Johannesburg","1 Jan 1914"};
-
-    public static String records_odi_subtitle[]={"Largest margin of victory (by runs)","Largest margin of victory (by wickets)",
-            "Highest innings totals","Highest innings totals batting second","Lowest innings totals","Most consecutive wins"};
-
-    public static String records_odi_title1[]={"Winner","Margin","Target","Opposition","Ground","Match Date"};
-    public static String records_odi_title2[]={"Winner","Margin","Balls Rem" ,"Target","Overs","Opposition","Ground","Match Date"};
-    public static String records_odi_title3[]={"Team","Score", "Overs","RR","Inns","Opposition","Ground","Match Date"};
-    public static String records_odi_title4[]={"Team" ,"Score","Overs","RR","Result","Opposition","Ground","Match Date"};
-    public static String records_odi_title5[]={"Team","Score","Overs" ,"RR","Inns","Opposition","Ground","Match Date"};
-    public static String records_odi_title6[]={"Team","Mat","From Date","To Date"};
-
-    public static String records_odi_value1[]={"New Zealand","290 runs","403","v Ireland","Aberdeen","1 Jul 2008",
-            "Australia" ,"275 runs","418","v Afghanistan","Perth","4 Mar 2015",
-            "South Africa" ,"272 runs" ,"400" ,"v Zimbabwe","Benoni","22 Oct 2010"};
-    public static String records_odi_value2[]={"India","10 wickets" ,"181","121" ,"29.5","v East Africa","Leeds","11 Jun 1975",
-            "New Zealand","10 wickets","30","113","29.0","v India","Melbourne","10 Jan 1981",
-            "West Indies","10 wickets","89","172","45.1","v Zimbabwe","Birmingham","20 Jun 1983"};
-    public static String records_odi_value3[]={"Sri Lanka","443/9","50.0","8.86","1","v Netherlands","Amstelveen","4 Jul 2006",
-            "South Africa","439/2","50.0","8.78","1","v West Indies","Johannesburg","18 Jan 2015",
-            "South Africa","438/9","49.5","8.78","2","v Australia","Johannesburg","12 Mar 2006"};
-    public static String records_odi_value4[]={"South Africa","438/9","49.5","8.78","won","v Australia","Johannesburg","12 Mar 2006",
-            "Sri Lanka","411/8","50.0","8.22","lost","v India","Rajkot" ,"15 Dec 2009",
-            "England","365/9" ,"46.0","7.93","lost","v New Zealand","The Oval","12 Jun 2015"};
-    public static String records_odi_value5[]={"Zimbabwe","35","18.0","1.94","1","v Sri Lanka","Harare","25 Apr 2004",
-            "Canada","36","18.4","1.92","1","v Sri Lanka","Paarl","19 Feb 2003",
-            "Zimbabwe","38","15.4","2.42" ,"1","v Sri Lanka","Colombo (SSC)","8 Dec 2001"};
-    public static String records_odi_value6[]={"Australia","21","11 Jan 2003","24 May 2003"};
-
-    public static String records_t20_subtitle[]={"Largest margin of victory (by runs)","Largest margin of victory (by wickets)",
-            "Highest innings totals","Highest innings totals batting second","Lowest innings totals","Most consecutive wins"};
-
-    public static String records_t20_title1[]={"Winner","Margin","Target","Opposition","Ground","Match Date"};
-    public static String records_t20_title2[]={"Winner","Margin","Balls Rem","Target","Overs","Opposition","Ground","Match Date"};
-    public static String records_t20_title3[]={"Team","Score","Overs","RR","Inns","Opposition","Ground" , "Match Date"};
-    public static String records_t20_title4[]={"Team","Score","Overs","RR","Result","Opposition","Ground","Match Date"};
-    public static String records_t20_title5[]={"Team","Score","Overs","RR","Inns","Opposition","Ground","Match Date"};
-    public static String records_t20_title6[]={"Team","Mat","From Date","To Date"};
-
-    public static String records_t20_value1[]={"Sri Lanka","172 runs","261","v Kenya","Johannesburg","14 Sep 2007",
-            "South Africa","130 runs","212","v Scotland" ,"The Oval" ,"7 Jun 2009" ,
-            "England","116 runs","197","v Afghanistan","Colombo (RPS)","21 Sep 2012"};
-    public static String records_t20_value2[]={"South Africa","10 wickets","51","130" ,"11.3","v Pakistan" ,"Johannesburg","2 Feb 2007",
-            "Australia" ,"10 wickets","58" ,"102" ,"10.2","v Sri Lanka","Cape Town","20 Sep 2007",
-            "Kenya","10 wickets","45","110","12.3","v Scotland","Nairobi (Gym)","1 Feb 2010"};
-    public static String records_t20_value3[]={"Sri Lanka","260/6","20.0","13.00","1","v Kenya","Johannesburg","14 Sep 2007",
-            "Australia","248/6" ,"20.0","12.40" ,"1" ,"v England","Southampton" ,"29 Aug 2013" ,
-            "South Africa","241/6","20.0","12.05","1","v England","Centurion","15 Nov 2009"};
-    public static String records_t20_value4[]={"West Indies" ,"236/6" ,"19.2","12.20", "won","v South Africa" ,"Johannesburg","11 Jan 2015",
-            "England","230/8","19.4","11.69","won","v South Africa","Mumbai","18 Mar 2016",
-            "Australia","214/4","20.0","10.70","tied","v New Zealand","Christchurch","28 Feb 2010"};
-    public static String records_t20_value5[]={"Netherlands","39","10.3","3.71","1","v Sri Lanka","Chittagong","24 Mar 2014",
-            "Nepal","53","14.3","3.65","1","v Ireland","Belfast","13 Jul 2015",
-            "Kenya","56","18.4","3.00","2","v Afghanistan","Sharjah","30 Sep 2013"};
-    public static String records_t20_value6[]={"England","8","6 May 2010","12 Jan 2011"};
-
-    public static String records_players_subtitle[]={"Most runs in test career","Most runs in an test innings","Most runs in a test match",
-            "Most hundreds in a test career","Most wickets in test career","Best Bowling figure in a test match","Most runs in ODI career",
-            "Most runs in an ODI innings","Most hundreds in ODI career","Most ducks in ODI career","Most runs in T20 career",
-            "Most runs in an T20 innings","Most fifties in T20 career","Most wickets in T20 career","Best figures in an T20 innings"};
+//    public static String records_major_title[]={"Test","ODI","T20","Players"};
+//    public static String records_test_subtitle[]={"Largest margin of victory","Most consecutive series without defeat","Most consecutive defeats",
+//            "Highest innings totals","Lowest innings totals","Most runs in one day","Most wickets in one day","Most ducks in a match"};
+//    public static String records_test_title1[]={"Winner","Margin","Opposition","Ground","Match Date"};
+//    public static String records_test_title2[]={"Team","Series","From","To"};
+//    public static String records_test_title3[]={"Team","Mat","From","To"};
+//    public static String records_test_title4[]={"Team","Score","Overs","RR","Inns","Opposition","Ground","Match Date"};
+//    public static String records_test_title5[]={"Team","Score","Overs","RR","Inns","Opposition","Ground","Match Date"};
+//    public static String records_test_title6[]={"Team 1","Team 2","Day" ,"Runs","Wkts", "Ground", "Match Date"};
+//    public static String records_test_title7[]={"Team 1","Team 2","Day","Runs" ,"Wkts","Ground","Match Date"};
+//    public static String records_test_title8[]={"Team 1","Team 2","Ducks", "Winner","Ground","Match Date","Scorecard"};
+//
+//    public static String records_test_value1[]={"England","inns & 579 runs","v Australia","The Oval","20 Aug 1938",
+//            "Australia","inns & 360 runs","v South Africa","Johannesburg", "22 Feb 2002",
+//            "West Indies", "inns & 336 runs","v India","Kolkata","31 Dec 1958"};
+//    public static String records_test_value2[]={"West Indies","29","1980","1994/95"};
+//    public static String records_test_value3[]={"Bangladesh", "21","15 Nov 2001","19 Feb 2004"};
+//    public static String records_test_value4[]={"Sri Lanka","952/6d", "271.0" ,"3.51","2" ,"v India","Colombo (RPS)", "2 Aug 1997",
+//            "England","903/7d","335.2", "2.69", "1", "v Australia","The Oval","20 Aug 1938",
+//            "England","849" ,"258.2","3.28","1","v West Indies", "Kingston","3 Apr 1930"};
+//    public static String records_test_value5[]={"New Zealand", "26","27.0","0.96","3","v England","Auckland","25 Mar 1955",
+//            "South Africa","30","18.4x5", "1.91","4","v England","Port Elizabeth" ,"13 Feb 1896",
+//            "South Africa" ,"30" , "12.3" , "2.40","2","v England", "Birmingham" , "14 Jun 1924"};
+//    public static String records_test_value6[]={"England","India","2", "588", "6", "Manchester", "25 Jul 1936",
+//            "England","South Africa", "2", "522", "2","Lord's", "28 Jun 1924",
+//            "Sri Lanka",  "Bangladesh" ,"2", "509", "9", "Colombo(PSS)", "21 Jul 2002"};
+//    public static String records_test_value7[]={"England" ,"Australia","2", "157","27","Lord's","16 Jul 1888" ,
+//            "Australia","England","1","221","25","Melbourne","1 Jan 1902",
+//            "England","Australia" ,"2","255" ,"24","The Oval","10 Aug 1896"};
+//    public static String records_test_value8[]={"England","Australia","11","England","Manchester","30 Aug 1888",
+//            "Australia","England","11","Australia","Melbourne","5 Mar 1904",
+//            "South Africa" ,"England","11","England","Johannesburg","1 Jan 1914"};
+//
+//    public static String records_odi_subtitle[]={"Largest margin of victory (by runs)","Largest margin of victory (by wickets)",
+//            "Highest innings totals","Highest innings totals batting second","Lowest innings totals","Most consecutive wins"};
+//
+//    public static String records_odi_title1[]={"Winner","Margin","Target","Opposition","Ground","Match Date"};
+//    public static String records_odi_title2[]={"Winner","Margin","Balls Rem" ,"Target","Overs","Opposition","Ground","Match Date"};
+//    public static String records_odi_title3[]={"Team","Score", "Overs","RR","Inns","Opposition","Ground","Match Date"};
+//    public static String records_odi_title4[]={"Team" ,"Score","Overs","RR","Result","Opposition","Ground","Match Date"};
+//    public static String records_odi_title5[]={"Team","Score","Overs" ,"RR","Inns","Opposition","Ground","Match Date"};
+//    public static String records_odi_title6[]={"Team","Mat","From Date","To Date"};
+//
+//    public static String records_odi_value1[]={"New Zealand","290 runs","403","v Ireland","Aberdeen","1 Jul 2008",
+//            "Australia" ,"275 runs","418","v Afghanistan","Perth","4 Mar 2015",
+//            "South Africa" ,"272 runs" ,"400" ,"v Zimbabwe","Benoni","22 Oct 2010"};
+//    public static String records_odi_value2[]={"India","10 wickets" ,"181","121" ,"29.5","v East Africa","Leeds","11 Jun 1975",
+//            "New Zealand","10 wickets","30","113","29.0","v India","Melbourne","10 Jan 1981",
+//            "West Indies","10 wickets","89","172","45.1","v Zimbabwe","Birmingham","20 Jun 1983"};
+//    public static String records_odi_value3[]={"Sri Lanka","443/9","50.0","8.86","1","v Netherlands","Amstelveen","4 Jul 2006",
+//            "South Africa","439/2","50.0","8.78","1","v West Indies","Johannesburg","18 Jan 2015",
+//            "South Africa","438/9","49.5","8.78","2","v Australia","Johannesburg","12 Mar 2006"};
+//    public static String records_odi_value4[]={"South Africa","438/9","49.5","8.78","won","v Australia","Johannesburg","12 Mar 2006",
+//            "Sri Lanka","411/8","50.0","8.22","lost","v India","Rajkot" ,"15 Dec 2009",
+//            "England","365/9" ,"46.0","7.93","lost","v New Zealand","The Oval","12 Jun 2015"};
+//    public static String records_odi_value5[]={"Zimbabwe","35","18.0","1.94","1","v Sri Lanka","Harare","25 Apr 2004",
+//            "Canada","36","18.4","1.92","1","v Sri Lanka","Paarl","19 Feb 2003",
+//            "Zimbabwe","38","15.4","2.42" ,"1","v Sri Lanka","Colombo (SSC)","8 Dec 2001"};
+//    public static String records_odi_value6[]={"Australia","21","11 Jan 2003","24 May 2003"};
+//
+//    public static String records_t20_subtitle[]={"Largest margin of victory (by runs)","Largest margin of victory (by wickets)",
+//            "Highest innings totals","Highest innings totals batting second","Lowest innings totals","Most consecutive wins"};
+//
+//    public static String records_t20_title1[]={"Winner","Margin","Target","Opposition","Ground","Match Date"};
+//    public static String records_t20_title2[]={"Winner","Margin","Balls Rem","Target","Overs","Opposition","Ground","Match Date"};
+//    public static String records_t20_title3[]={"Team","Score","Overs","RR","Inns","Opposition","Ground" , "Match Date"};
+//    public static String records_t20_title4[]={"Team","Score","Overs","RR","Result","Opposition","Ground","Match Date"};
+//    public static String records_t20_title5[]={"Team","Score","Overs","RR","Inns","Opposition","Ground","Match Date"};
+//    public static String records_t20_title6[]={"Team","Mat","From Date","To Date"};
+//
+//    public static String records_t20_value1[]={"Sri Lanka","172 runs","261","v Kenya","Johannesburg","14 Sep 2007",
+//            "South Africa","130 runs","212","v Scotland" ,"The Oval" ,"7 Jun 2009" ,
+//            "England","116 runs","197","v Afghanistan","Colombo (RPS)","21 Sep 2012"};
+//    public static String records_t20_value2[]={"South Africa","10 wickets","51","130" ,"11.3","v Pakistan" ,"Johannesburg","2 Feb 2007",
+//            "Australia" ,"10 wickets","58" ,"102" ,"10.2","v Sri Lanka","Cape Town","20 Sep 2007",
+//            "Kenya","10 wickets","45","110","12.3","v Scotland","Nairobi (Gym)","1 Feb 2010"};
+//    public static String records_t20_value3[]={"Sri Lanka","260/6","20.0","13.00","1","v Kenya","Johannesburg","14 Sep 2007",
+//            "Australia","248/6" ,"20.0","12.40" ,"1" ,"v England","Southampton" ,"29 Aug 2013" ,
+//            "South Africa","241/6","20.0","12.05","1","v England","Centurion","15 Nov 2009"};
+//    public static String records_t20_value4[]={"West Indies" ,"236/6" ,"19.2","12.20", "won","v South Africa" ,"Johannesburg","11 Jan 2015",
+//            "England","230/8","19.4","11.69","won","v South Africa","Mumbai","18 Mar 2016",
+//            "Australia","214/4","20.0","10.70","tied","v New Zealand","Christchurch","28 Feb 2010"};
+//    public static String records_t20_value5[]={"Netherlands","39","10.3","3.71","1","v Sri Lanka","Chittagong","24 Mar 2014",
+//            "Nepal","53","14.3","3.65","1","v Ireland","Belfast","13 Jul 2015",
+//            "Kenya","56","18.4","3.00","2","v Afghanistan","Sharjah","30 Sep 2013"};
+//    public static String records_t20_value6[]={"England","8","6 May 2010","12 Jan 2011"};
+//
+//    public static String records_players_subtitle[]={"Most runs in test career","Most runs in an test innings","Most runs in a test match",
+//            "Most hundreds in a test career","Most wickets in test career","Best Bowling figure in a test match","Most runs in ODI career",
+//            "Most runs in an ODI innings","Most hundreds in ODI career","Most ducks in ODI career","Most runs in T20 career",
+//            "Most runs in an T20 innings","Most fifties in T20 career","Most wickets in T20 career","Best figures in an T20 innings"};
 
 }

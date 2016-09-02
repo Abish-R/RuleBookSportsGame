@@ -1,6 +1,7 @@
 package abish.rulebooksportsgame;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,12 +18,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import Constants.Constant;
 import Constants.ConstantGetterMainPage;
+import util.SetCustomThemeToActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
@@ -35,6 +44,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SetCustomThemeToActivity obj = new SetCustomThemeToActivity();
+        obj.setCustomTheme(this, Constant.theme);
+
         setContentView(R.layout.activity_main);
 
         initializeView();
@@ -62,6 +74,13 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),WebPageLoader.class));
+            }
+        });
+        Button button2 = (Button)findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),AAAAA.class));
             }
         });
     }
@@ -133,6 +152,7 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.nav_athletic) {
 
         } else if (id == R.id.nav_manage) {
+            startActivity(new Intent(this,SettingsActivity.class));
 
         } else if (id == R.id.nav_games) {
 
@@ -149,5 +169,24 @@ public class MainActivity extends AppCompatActivity
 
     private void callPaymentMode(){
         startActivity(new Intent(this,PayUMoneyActivity.class));
+    }
+
+    private void downloadUrlLinks(){
+        StringRequest req = new StringRequest(Request.Method.GET,null,//url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response) {
+                        //insetUrls(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // handle error response
+                    }
+                });
+
+// Adding request to request queue
+        AppController.getInstance().addToRequestQueue(req, "For URLS");
     }
 }

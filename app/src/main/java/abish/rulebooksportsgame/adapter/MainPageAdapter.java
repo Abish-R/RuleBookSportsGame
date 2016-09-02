@@ -15,6 +15,7 @@ import java.util.List;
 
 import abish.rulebooksportsgame.CricketActivity;
 import abish.rulebooksportsgame.R;
+import abish.rulebooksportsgame.UrlHandlerActivity;
 
 /**
  * Created by INDP on 16-Jun-16.
@@ -22,35 +23,6 @@ import abish.rulebooksportsgame.R;
 public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MyViewHolder> {
     private List<String> items;
     Context context;
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView text;
-        public ImageView img;
-        public View mCardView;
-
-        public MyViewHolder(View view) {
-            super(view);
-            text = (TextView) view.findViewById(R.id._text);
-            img=(ImageView) view.findViewById(R.id._img);
-            mCardView = (CardView) view.findViewById(R.id.card);
-            mCardView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            int position = (int) v.getTag();
-            switch (position){
-                case 0:
-                    Toast.makeText(context, v.getTag() + "", Toast.LENGTH_SHORT).show();
-                    context.startActivity( new Intent(context, CricketActivity.class));
-                    break;
-                case 1:
-                    Toast.makeText(context, v.getTag() + "", Toast.LENGTH_SHORT).show();
-                    break;
-            }
-
-        }
-    }
-
 
     public MainPageAdapter(Context con, List<String> itemslist) {
         context=con;
@@ -63,6 +35,36 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MyView
                 .inflate(R.layout.sports_mainpage_rowitem, parent, false);
 
         return new MyViewHolder(itemView);
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView text;
+        public ImageView img;
+        public View mCardView;
+
+        public MyViewHolder(View view) {
+            super(view);
+            text = (TextView) view.findViewById(R.id._text);
+            img = (ImageView) view.findViewById(R.id._img);
+            mCardView = (CardView) view.findViewById(R.id.card);
+            mCardView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag();
+            switch (position) {
+                case 0:
+                    Toast.makeText(context, v.getTag() + "", Toast.LENGTH_SHORT).show();
+                    context.startActivity(new Intent(context, CricketActivity.class));
+                    break;
+                case 1:
+                    context.startActivity(new Intent(context, UrlHandlerActivity.class));
+                    Toast.makeText(context, v.getTag() + "", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+
+        }
     }
 
     @Override

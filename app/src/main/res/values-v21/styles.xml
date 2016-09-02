@@ -6,4 +6,10 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <!--<style name="myStyle" parent="@android:style/TextAppearance">-->
+        <!--<item name="android:textColor">#000</item>-->
+        <!--<item name="android:paddingLeft">@dimen/padding_3dp</item>-->
+        <!--<item name="android:paddingRight">@dimen/padding_3dp</item>-->
+    <!--</style>-->
 </resources>

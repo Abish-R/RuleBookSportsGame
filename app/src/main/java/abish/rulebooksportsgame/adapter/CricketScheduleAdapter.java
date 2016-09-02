@@ -94,7 +94,7 @@ public class CricketScheduleAdapter extends RecyclerView.Adapter{
             descrip.setText(items.get(position).getMatchDescription());
             time_gmt.setText("GMT  : "+items.get(position).getGmtTime());
             time_ist.setText("IST  : "+items.get(position).getIstTime());
-            venue.setText(items.get(position).getVenue());
+            venue.setText("@ "+items.get(position).getVenue());
 
             //holder.img.setImageResource(R.drawable.ic_menu_camera);
             setFadeAnimation(mCardView);

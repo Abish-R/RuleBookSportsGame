@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "75893989295",
+    "firebase_url": "https://fir-fcm-analalytics.firebaseio.com",
+    "project_id": "fir-fcm-analalytics",
+    "storage_bucket": "fir-fcm-analalytics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75893989295:android:0041f6d82a0773cb",
+        "android_client_info": {
+          "package_name": "abish.rulebooksportsgame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75893989295-pbud136r24dj9vnrl27ng94qhp6euodl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "abish.rulebooksportsgame",
+            "certificate_hash": "F1100BADDBF46586673524251E799D3188969F0E"
+          }
+        },
+        {
+          "client_id": "75893989295-ohr5gsetjkl4k1168dvng7eh5uforf6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3eTLHR2oP2xUUI9vTFt4xFDK-tZggQyI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75893989295-ohr5gsetjkl4k1168dvng7eh5uforf6t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
